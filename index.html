@@ -130,7 +130,6 @@
 
     <!-- VISTA 2: TIENDA & ESTRELLAS -->
     <div id="view-store" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
-        <!-- Monetización con Telegram Stars -->
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-2 border-yellow-500/50 bg-slate-900/90">
             <h2 class="text-xs font-bold uppercase tracking-wider text-yellow-400">⭐ Tienda Telegram Stars</h2>
             <p class="text-[11px] text-slate-300">Obtén una inyección masiva instantánea de USDT mediante pagos oficiales de Telegram.</p>
@@ -181,7 +180,6 @@
             </div>
         </div>
 
-        <!-- Sistema de Prestigio (Halving) -->
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-2 border-amber-500/40">
             <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">⚡ Halving de Bitcoin (Prestigio)</h2>
             <p class="text-[11px] text-slate-300">Reinicia tu balance y mineros a cambio de <strong>+1x de multiplicador permanente</strong> a toda tu producción.</p>
@@ -213,10 +211,10 @@
         </div>
     </div>
 
-    <!-- VISTA 4: MISIONES Y SOCIAL -->
+    <!-- VISTA 4: MISIONES Y LOGROS MÚLTIPLES -->
     <div id="view-missions" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">🎯 Misiones de Telegram</h2>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">🎯 Misiones y Logros</h2>
 
             <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
                 <div>
@@ -234,12 +232,22 @@
                 <button id="mission-invite" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all">Compartir</button>
             </div>
 
+            <!-- Logro Nivel 1 -->
             <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
                 <div>
-                    <p class="text-xs font-bold text-amber-400" id="achievement-title">Primeros Pasos (50 Clics)</p>
+                    <p class="text-xs font-bold text-amber-400" id="ach1-title">Novato del Tap (50 Clics)</p>
                     <p class="text-[10px] text-slate-400">Recompensa: +100 USDT</p>
                 </div>
-                <button id="claim-achievement-btn" class="bg-amber-500 active:bg-amber-600 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Reclamar</button>
+                <button id="claim-ach1" class="bg-amber-500 active:bg-amber-600 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Reclamar</button>
+            </div>
+
+            <!-- Logro Nivel 2 -->
+            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
+                <div>
+                    <p class="text-xs font-bold text-amber-400" id="ach2-title">Dedos de Fuego (500 Clics)</p>
+                    <p class="text-[10px] text-slate-400">Recompensa: +1,000 USDT</p>
+                </div>
+                <button id="claim-ach2" class="bg-amber-500 active:bg-amber-600 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Reclamar</button>
             </div>
         </div>
     </div>
@@ -256,14 +264,31 @@
             quantumCost: 1200,
             totalClicks: 0,
             lastDaily: 0,
-            achievementClaimed: false,
+            lastOnlineTime: Date.now(),
+            ach1Claimed: false,
+            ach2Claimed: false,
             channelClaimed: false,
             inviteClaimed: false
         };
 
         const saved = localStorage.getItem('crypto_survivor_save');
         if (saved) {
-            try { state = { ...state, ...JSON.parse(saved) }; } catch(e){}
+            try { 
+                const loaded = JSON.parse(saved);
+                state = { ...state, ...loaded }; 
+
+                // Calcular ganancias por ausencia (Idle)
+                if (state.cps > 0 && state.lastOnlineTime) {
+                    const secondsAway = Math.floor((Date.now() - state.lastOnlineTime) / 1000);
+                    if (secondsAway > 10) { // Solo si estuvo fuera más de 10 segundos
+                        const offlineEarnings = secondsAway * state.cps * state.multiplier;
+                        state.score += offlineEarnings;
+                        setTimeout(() => {
+                            alert(`💤 ¡Bienvenido de nuevo! Tus mineros produjeron ${Math.floor(offlineEarnings).toLocaleString()} USDT mientras estabas ausente.`);
+                        }, 500);
+                    }
+                }
+            } catch(e){}
         }
 
         const scoreEl = document.getElementById('score');
@@ -301,9 +326,12 @@
 
         const dailyBtn = document.getElementById('daily-btn');
         const dailyTimer = document.getElementById('daily-timer');
-        const achievementTitle = document.getElementById('achievement-title');
-        const claimAchievementBtn = document.getElementById('claim-achievement-btn');
         
+        const claimAch1 = document.getElementById('claim-ach1');
+        const ach1Title = document.getElementById('ach1-title');
+        const claimAch2 = document.getElementById('claim-ach2');
+        const ach2Title = document.getElementById('ach2-title');
+
         const tradeDisplay = document.getElementById('trade-display');
         const tradeUp = document.getElementById('trade-up');
         const tradeDown = document.getElementById('trade-down');
@@ -354,7 +382,7 @@
 
         function createFloatingText(e, amount) {
             const rect = tapBtn.getBoundingClientRect();
-    const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : rect.left + rect.width / 2);
+            const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : rect.left + rect.width / 2);
             const clientY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : rect.top + rect.height / 2);
 
             const text = document.createElement('div');
@@ -389,36 +417,11 @@
             }
         }
 
-        // Integración de Pago con Telegram Stars
         buyStarsBtn.addEventListener('click', () => {
-            if (window.Telegram && window.Telegram.WebApp) {
-                const tg = window.Telegram.WebApp;
-                // Si tienes configurado tu invoice link desde BotFather, úsalo aquí. 
-                // Ejemplo de simulación si aún no hay link generado en BotFather:
-                if (tg.openInvoice) {
-                    // Reemplaza 'INVOICE_LINK_AQUÍ' con el enlace que te da BotFather al crear la factura de Estrellas
-                    /*
-                    tg.openInvoice('INVOICE_LINK_AQUÍ', (result) => {
-                        if (result === 'paid') {
-                            state.score += 15000;
-                            updateUI();
-                            saveGame();
-                            alert("¡Pago exitoso! +15,000 USDT añadidos.");
-                        }
-                    });
-                    */
-                }
-                // Modo prueba interactivo directo en el cliente si se testea en web pura:
-                state.score += 15000;
-                updateUI();
-                saveGame();
-                alert("⭐ [Modo Prueba Stars]: ¡Has adquirido 15,000 USDT con éxito!");
-            } else {
-                state.score += 15000;
-                updateUI();
-                saveGame();
-                alert("⭐ [Modo Prueba]: +15,000 USDT añadidos.");
-            }
+            state.score += 15000;
+            updateUI();
+            saveGame();
+            alert("⭐ [Modo Prueba]: +15,000 USDT añadidos con éxito.");
         });
 
         buyClickBtn.addEventListener('click', () => {
@@ -518,13 +521,23 @@
             }
         });
 
-        claimAchievementBtn.addEventListener('click', () => {
-            if (!state.achievementClaimed && state.totalClicks >= 50) {
+        claimAch1.addEventListener('click', () => {
+            if (!state.ach1Claimed && state.totalClicks >= 50) {
                 state.score += 100;
-                state.achievementClaimed = true;
+                state.ach1Claimed = true;
                 updateUI();
                 saveGame();
-                alert("¡Logro completado! +100 USDT añadidos.");
+                alert("¡Logro 1 completado! +100 USDT añadidos.");
+            }
+        });
+
+        claimAch2.addEventListener('click', () => {
+            if (!state.ach2Claimed && state.totalClicks >= 500) {
+                state.score += 1000;
+                state.ach2Claimed = true;
+                updateUI();
+                saveGame();
+                alert("¡Logro 2 completado! +1,000 USDT añadidos.");
             }
         });
 
@@ -577,15 +590,28 @@
             buyQuantumBtn.disabled = state.score < state.quantumCost;
             halvingBtn.disabled = state.score < 10000;
 
-            if (state.achievementClaimed) {
-                achievementTitle.textContent = "¡Logro Completado! ✅";
-                claimAchievementBtn.disabled = true;
-                claimAchievementBtn.textContent = "Reclamado";
+            // Logro 1 UI
+            if (state.ach1Claimed) {
+                ach1Title.textContent = "Novato (Reclamado) ✅";
+                claimAch1.disabled = true;
+                claimAch1.textContent = "Reclamado";
             } else if (state.totalClicks >= 50) {
-                claimAchievementBtn.disabled = false;
+                claimAch1.disabled = false;
             } else {
-                claimAchievementBtn.disabled = true;
-                claimAchievementBtn.textContent = `${state.totalClicks}/50 Clics`;
+                claimAch1.disabled = true;
+                claimAch1.textContent = `${state.totalClicks}/50`;
+            }
+
+            // Logro 2 UI
+            if (state.ach2Claimed) {
+                ach2Title.textContent = "Dedos de Fuego (Reclamado) ✅";
+                claimAch2.disabled = true;
+                claimAch2.textContent = "Reclamado";
+            } else if (state.totalClicks >= 500) {
+                claimAch2.disabled = false;
+            } else {
+                claimAch2.disabled = true;
+                claimAch2.textContent = `${state.totalClicks}/500`;
             }
 
             const now = Date.now();
@@ -613,6 +639,7 @@
         }
 
         function saveGame() {
+            state.lastOnlineTime = Date.now();
             localStorage.setItem('crypto_survivor_save', JSON.stringify(state));
         }
 
