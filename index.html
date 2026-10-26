@@ -253,6 +253,53 @@
     </div>
 
     <script>
+        // Sistema de Audio Web Sintético (Sin archivos externos)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'tap') {
+                // Sonido de clic agudo y corto (tipo láser digital)
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, now);
+                osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
+                gainNode.gain.setValueAtTime(0.15, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                osc.start(now);
+                osc.stop(now + 0.08);
+            } else if (type === 'buy') {
+                // Sonido de compra (tono grave ascendente)
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(200, now);
+                osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+                gainNode.gain.setValueAtTime(0.2, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            } else if (type === 'win') {
+                // Sonido de éxito / recompensa (melodía alegre)
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.setValueAtTime(500, now + 0.1);
+                osc.frequency.setValueAtTime(800, now + 0.2);
+                gainNode.gain.setValueAtTime(0.15, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            }
+        }
+
         let state = {
             score: 0,
             clickPower: 1,
@@ -277,13 +324,13 @@
                 const loaded = JSON.parse(saved);
                 state = { ...state, ...loaded }; 
 
-                // Calcular ganancias por ausencia (Idle)
                 if (state.cps > 0 && state.lastOnlineTime) {
                     const secondsAway = Math.floor((Date.now() - state.lastOnlineTime) / 1000);
-                    if (secondsAway > 10) { // Solo si estuvo fuera más de 10 segundos
+                    if (secondsAway > 10) {
                         const offlineEarnings = secondsAway * state.cps * state.multiplier;
                         state.score += offlineEarnings;
                         setTimeout(() => {
+                            playSound('win');
                             alert(`💤 ¡Bienvenido de nuevo! Tus mineros produjeron ${Math.floor(offlineEarnings).toLocaleString()} USDT mientras estabas ausente.`);
                         }, 500);
                     }
@@ -339,6 +386,7 @@
         const missionInvite = document.getElementById('mission-invite');
 
         function switchTab(activeBtn, activeView) {
+            playSound('tap');
             [tabGame, tabStore, tabTrading, tabMissions].forEach(btn => btn.className = "bg-slate-900/80 text-slate-300 font-bold text-[11px] py-2 rounded-xl border border-slate-800 shadow-md transition-all");
             [viewGame, viewStore, viewTrading, viewMissions].forEach(view => view.classList.add('hidden'));
             
@@ -365,6 +413,7 @@
 
         function handleMine(e) {
             e.preventDefault();
+            playSound('tap');
             const earned = state.clickPower * state.multiplier;
             state.score += earned;
             state.totalClicks += 1;
@@ -418,6 +467,7 @@
         }
 
         buyStarsBtn.addEventListener('click', () => {
+            playSound('win');
             state.score += 15000;
             updateUI();
             saveGame();
@@ -426,6 +476,7 @@
 
         buyClickBtn.addEventListener('click', () => {
             if (state.score >= state.clickCost) {
+                playSound('buy');
                 state.score -= state.clickCost;
                 state.clickPower += 1;
                 state.clickCost = Math.round(state.clickCost * 1.5);
@@ -436,6 +487,7 @@
 
         buyMinerBtn.addEventListener('click', () => {
             if (state.score >= state.minerCost) {
+                playSound('buy');
                 state.score -= state.minerCost;
                 state.cps += 1;
                 state.minerCost = Math.round(state.minerCost * 1.6);
@@ -446,6 +498,7 @@
 
         buyFarmBtn.addEventListener('click', () => {
             if (state.score >= state.farmCost) {
+                playSound('buy');
                 state.score -= state.farmCost;
                 state.cps += 5;
                 state.farmCost = Math.round(state.farmCost * 1.7);
@@ -456,6 +509,7 @@
 
         buyQuantumBtn.addEventListener('click', () => {
             if (state.score >= state.quantumCost) {
+                playSound('buy');
                 state.score -= state.quantumCost;
                 state.cps += 25;
                 state.quantumCost = Math.round(state.quantumCost * 1.8);
@@ -466,6 +520,7 @@
 
         halvingBtn.addEventListener('click', () => {
             if (state.score >= 10000) {
+                playSound('win');
                 state.score = 0;
                 state.clickPower = 1;
                 state.cps = 0;
@@ -485,6 +540,7 @@
                 alert("Necesitas al menos 500 USDT para tradear.");
                 return;
             }
+            playSound('buy');
             state.score -= 500;
             updateUI();
             tradeUp.disabled = true;
@@ -495,6 +551,7 @@
                 const outcome = Math.random() > 0.5 ? "UP" : "DOWN";
                 const won = (prediction === outcome);
                 if (won) {
+                    playSound('win');
                     state.score += 1000;
                     tradeDisplay.textContent = "🎉 ¡GANASTE +1,000 USDT!";
                 } else {
@@ -513,6 +570,7 @@
         dailyBtn.addEventListener('click', () => {
             const now = Date.now();
             if (now - state.lastDaily > 24 * 60 * 60 * 1000) {
+                playSound('win');
                 state.score += 500;
                 state.lastDaily = now;
                 updateUI();
@@ -523,6 +581,7 @@
 
         claimAch1.addEventListener('click', () => {
             if (!state.ach1Claimed && state.totalClicks >= 50) {
+                playSound('win');
                 state.score += 100;
                 state.ach1Claimed = true;
                 updateUI();
@@ -533,6 +592,7 @@
 
         claimAch2.addEventListener('click', () => {
             if (!state.ach2Claimed && state.totalClicks >= 500) {
+                playSound('win');
                 state.score += 1000;
                 state.ach2Claimed = true;
                 updateUI();
@@ -543,6 +603,7 @@
 
         missionChannel.addEventListener('click', () => {
             if (!state.channelClaimed) {
+                playSound('win');
                 state.score += 1000;
                 state.channelClaimed = true;
                 missionChannel.disabled = true;
@@ -555,6 +616,7 @@
 
         missionInvite.addEventListener('click', () => {
             if (!state.inviteClaimed) {
+                playSound('win');
                 state.score += 2500;
                 state.inviteClaimed = true;
                 missionInvite.disabled = true;
@@ -590,7 +652,6 @@
             buyQuantumBtn.disabled = state.score < state.quantumCost;
             halvingBtn.disabled = state.score < 10000;
 
-            // Logro 1 UI
             if (state.ach1Claimed) {
                 ach1Title.textContent = "Novato (Reclamado) ✅";
                 claimAch1.disabled = true;
@@ -602,7 +663,6 @@
                 claimAch1.textContent = `${state.totalClicks}/50`;
             }
 
-            // Logro 2 UI
             if (state.ach2Claimed) {
                 ach2Title.textContent = "Dedos de Fuego (Reclamado) ✅";
                 claimAch2.disabled = true;
