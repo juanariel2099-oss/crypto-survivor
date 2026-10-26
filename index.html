@@ -9,7 +9,7 @@
     <style>
         @keyframes pulse-glow {
             0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
-            50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(16, 185, 129, 0.8); }
+            50% { transform: scale(1.04); box-shadow: 0 0 30px rgba(16, 185, 129, 0.7); }
         }
         .crypto-coin {
             animation: pulse-glow 3s infinite;
@@ -19,7 +19,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between p-4 font-sans select-none">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between p-4 font-sans select-none pb-8">
 
     <!-- Header / Info del usuario -->
     <header class="w-full max-w-md mx-auto flex justify-between items-center bg-slate-900/80 border border-slate-800 p-3 rounded-2xl backdrop-blur-md shadow-lg">
@@ -36,48 +36,94 @@
     </header>
 
     <!-- Zona central: Contador y Moneda clickeable -->
-    <main class="w-full max-w-md mx-auto flex flex-col items-center justify-center my-auto py-6">
-        <div class="text-center mb-6">
+    <main class="w-full max-w-md mx-auto flex flex-col items-center justify-center my-4">
+        <div class="text-center mb-4">
             <p class="text-xs uppercase tracking-widest text-slate-400 mb-1 font-semibold">Balance Total</p>
             <div class="flex items-center justify-center space-x-2">
                 <span class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 font-mono" id="score">0</span>
                 <span class="text-xl font-bold text-emerald-500">USDT</span>
             </div>
-            <p class="text-xs text-slate-500 mt-1">+<span id="click-power">1</span> por toque</p>
+            <p class="text-xs text-slate-500 mt-1">+<span id="click-power-text">1</span> por toque | +<span id="cps-text">0</span>/seg</p>
         </div>
 
         <!-- Botón principal de la moneda -->
-        <button id="tap-btn" class="crypto-coin click-effect w-44 h-44 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-700 flex flex-col items-center justify-center shadow-2xl border-4 border-emerald-300/40 relative active:brightness-110 transition-all">
-            <span class="text-6xl filter drop-shadow-md">🪙</span>
-            <span class="text-xs font-bold text-slate-950 uppercase tracking-wider mt-1 bg-white/20 px-3 py-0.5 rounded-full">¡MINAR!</span>
+        <button id="tap-btn" class="crypto-coin click-effect w-36 h-36 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-700 flex flex-col items-center justify-center shadow-2xl border-4 border-emerald-300/40 relative active:brightness-110 transition-all my-2">
+            <span class="text-5xl filter drop-shadow-md">🪙</span>
+            <span class="text-[10px] font-bold text-slate-950 uppercase tracking-wider mt-1 bg-white/20 px-2 py-0.5 rounded-full">¡MINAR!</span>
         </button>
     </main>
 
-    <!-- Panel inferior / Estadísticas rápidas -->
-    <footer class="w-full max-w-md mx-auto bg-slate-900/80 border border-slate-800 p-4 rounded-2xl backdrop-blur-md shadow-lg flex justify-around text-center">
-        <div>
-            <p class="text-xs text-slate-400">Por segundo</p>
-            <p class="text-sm font-bold text-cyan-400 font-mono" id="cps">0.0</p>
+    <!-- TIENDA DE MEJORAS -->
+    <section class="w-full max-w-md mx-auto bg-slate-900/90 border border-slate-800 p-4 rounded-2xl shadow-xl space-y-3">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">🛒 Tienda de Mejoras</h2>
+
+        <!-- Mejora 1: Clics -->
+        <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <div>
+                <p class="text-xs font-bold text-emerald-400">⚡ Fuerza de Clic (+1/toque)</p>
+                <p class="text-[10px] text-slate-400">Costo: <span id="click-cost" class="text-amber-400 font-semibold">10</span> USDT</p>
+            </div>
+            <button id="buy-click-btn" class="bg-emerald-600 active:bg-emerald-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">
+                Comprar
+            </button>
         </div>
-        <div class="border-r border-slate-800"></div>
-        <div>
-            <p class="text-xs text-slate-400">Total clics</p>
-            <p class="text-sm font-bold text-amber-400 font-mono" id="total-taps">0</p>
+
+        <!-- Mejora 2: Auto Minero 1 -->
+        <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <div>
+                <p class="text-xs font-bold text-cyan-400">💻 Rig de Minería (+1/seg)</p>
+                <p class="text-[10px] text-slate-400">Costo: <span id="miner-cost" class="text-amber-400 font-semibold">50</span> USDT</p>
+            </div>
+            <button id="buy-miner-btn" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">
+                Comprar
+            </button>
         </div>
-    </footer>
+
+        <!-- Mejora 3: Granja Crypto -->
+        <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <div>
+                <p class="text-xs font-bold text-purple-400">🏭 Granja Crypto (+5/seg)</p>
+                <p class="text-[10px] text-slate-400">Costo: <span id="farm-cost" class="text-amber-400 font-semibold">250</span> USDT</p>
+            </div>
+            <button id="buy-farm-btn" class="bg-purple-600 active:bg-purple-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">
+                Comprar
+            </button>
+        </div>
+    </section>
 
     <script>
-        let score = 0;
-        let totalTaps = 0;
-        let clickPower = 1;
+        // Estado del juego (se guarda en localStorage)
+        let state = {
+            score: 0,
+            clickPower: 1,
+            cps: 0,
+            clickCost: 10,
+            minerCost: 50,
+            farmCost: 250
+        };
+
+        // Cargar progreso guardado si existe
+        const saved = localStorage.getItem('crypto_survivor_save');
+        if (saved) {
+            try { state = { ...state, ...JSON.parse(saved) }; } catch(e){}
+        }
 
         const scoreEl = document.getElementById('score');
         const tapBtn = document.getElementById('tap-btn');
-        const totalTapsEl = document.getElementById('total-taps');
+        const clickPowerText = document.getElementById('click-power-text');
+        const cpsText = document.getElementById('cps-text');
         const userNameEl = document.getElementById('user-name');
         const userAvatarEl = document.getElementById('user-avatar');
 
-        // Integración con Telegram WebApp si está disponible
+        const clickCostEl = document.getElementById('click-cost');
+        const minerCostEl = document.getElementById('miner-cost');
+        const farmCostEl = document.getElementById('farm-cost');
+
+        const buyClickBtn = document.getElementById('buy-click-btn');
+        const buyMinerBtn = document.getElementById('buy-miner-btn');
+        const buyFarmBtn = document.getElementById('buy-farm-btn');
+
+        // Integración con Telegram WebApp
         if (window.Telegram && window.Telegram.WebApp) {
             const tg = window.Telegram.WebApp;
             tg.expand();
@@ -90,22 +136,80 @@
             }
         }
 
-        // Evento de clic en la moneda
+        // Evento Tap Moneda
         tapBtn.addEventListener('click', () => {
-            score += clickPower;
-            totalTaps += 1;
+            state.score += state.clickPower;
             updateUI();
-            
-            // Vibración háptica en celulares si está soportado por Telegram
+            saveGame();
+
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
             }
         });
 
+        // Comprar Mejora Clic
+        buyClickBtn.addEventListener('click', () => {
+            if (state.score >= state.clickCost) {
+                state.score -= state.clickCost;
+                state.clickPower += 1;
+                state.clickCost = Math.round(state.clickCost * 1.5);
+                updateUI();
+                saveGame();
+            }
+        });
+
+        // Comprar Rig Minería
+        buyMinerBtn.addEventListener('click', () => {
+            if (state.score >= state.minerCost) {
+                state.score -= state.minerCost;
+                state.cps += 1;
+                state.minerCost = Math.round(state.minerCost * 1.6);
+                updateUI();
+                saveGame();
+            }
+        });
+
+        // Comprar Granja Crypto
+        buyFarmBtn.addEventListener('click', () => {
+            if (state.score >= state.farmCost) {
+                state.score -= state.farmCost;
+                state.cps += 5;
+                state.farmCost = Math.round(state.farmCost * 1.7);
+                updateUI();
+                saveGame();
+            }
+        });
+
+        // Bucle de producción automática por segundo
+        setInterval(() => {
+            if (state.cps > 0) {
+                state.score += state.cps;
+                updateUI();
+                saveGame();
+            }
+        }, 1000);
+
         function updateUI() {
-            scoreEl.textContent = score.toLocaleString();
-            totalTapsEl.textContent = totalTaps.toLocaleString();
+            scoreEl.textContent = Math.floor(state.score).toLocaleString();
+            clickPowerText.textContent = state.clickPower;
+            cpsText.textContent = state.cps;
+
+            clickCostEl.textContent = state.clickCost.toLocaleString();
+            minerCostEl.textContent = state.minerCost.toLocaleString();
+            farmCostEl.textContent = state.farmCost.toLocaleString();
+
+            buyClickBtn.disabled = state.score < state.clickCost;
+            buyMinerBtn.disabled = state.score < state.minerCost;
+            buyFarmBtn.disabled = state.score < state.farmCost;
         }
+
+        function saveGame() {
+            localStorage.setItem('crypto_survivor_save', JSON.stringify(state));
+        }
+
+        // Render inicial
+        updateUI();
     </script>
 </body>
-</html>
+            </html>
+    
