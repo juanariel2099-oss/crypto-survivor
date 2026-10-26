@@ -44,10 +44,7 @@
             pointer-events: none;
             animation: particle-pop 0.6s ease-out forwards;
         }
-
-        /* --- NUEVO ESTILO DE FONDO --- */
-                        body {
-            /* Fondo cibernético brillante y visible */
+        body {
             background-image: linear-gradient(to bottom, rgba(2, 6, 23, 0.4), rgba(2, 6, 23, 0.6)), url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1000&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
@@ -55,26 +52,21 @@
             background-attachment: fixed;
             min-height: 100vh;
         }
-
-        /* Paneles semi-transparentes con un toque más claro para destacar sobre el fondo */
         .glass-panel {
             background: rgba(15, 23, 42, 0.85); 
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(16, 185, 129, 0.3); /* Borde sutil verdoso */
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
         .balance-panel {
             background: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(5px);
-            padding: 1rem;
-            border-radius: 1rem;
             border: 1px solid rgba(16, 185, 129, 0.2);
-                                              }
-        
+        }
     </style>
 </head>
-<body class="text-slate-100 flex flex-col justify-between p-4 font-sans select-none pb-8 overflow-hidden">
+<body class="text-slate-100 flex flex-col justify-between p-4 font-sans select-none pb-12">
 
-    <!-- Header / Info del usuario (panel semi-transparente) -->
+    <!-- Header / Info del usuario -->
     <header class="w-full max-w-md mx-auto glass-panel p-3 rounded-2xl shadow-lg space-y-2 relative z-10">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-3">
@@ -93,62 +85,98 @@
         </div>
     </header>
 
-    <!-- Zona central: Contador y Moneda clickeable -->
-    <main class="w-full max-w-md mx-auto flex flex-col items-center justify-center my-4 relative z-10">
-        <div class="text-center mb-4 balance-panel">
+    <!-- Pestañas de Navegación -->
+    <nav class="w-full max-w-md mx-auto grid grid-cols-2 gap-2 my-3 relative z-10">
+        <button id="tab-game" class="bg-emerald-600 text-slate-950 font-bold text-xs py-2 rounded-xl shadow-md transition-all">🎮 Minar</button>
+        <button id="tab-store" class="bg-slate-900/80 text-slate-300 font-bold text-xs py-2 rounded-xl border border-slate-800 shadow-md transition-all">🛒 Tienda & Misiones</button>
+    </nav>
+
+    <!-- VISTA 1: JUEGO -->
+    <div id="view-game" class="w-full max-w-md mx-auto flex flex-col items-center justify-center relative z-10">
+        <div class="text-center mb-4 balance-panel w-full p-4 rounded-2xl shadow-lg">
             <p class="text-xs uppercase tracking-widest text-slate-400 mb-1 font-semibold">Balance Total</p>
             <div class="flex items-center justify-center space-x-2">
                 <span class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 font-mono" id="score">0</span>
                 <span class="text-xl font-bold text-emerald-500">USDT</span>
             </div>
-            <p class="text-xs text-slate-500 mt-1">+<span id="click-power-text">1</span> por toque | +<span id="cps-text">0</span>/seg</p>
+            <p class="text-xs text-slate-400 mt-1">+<span id="click-power-text">1</span> por toque | +<span id="cps-text">0</span>/seg</p>
         </div>
 
-        <div id="coin-container" class="relative flex items-center justify-center">
-            <button id="tap-btn" class="crypto-coin w-36 h-36 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-700 flex flex-col items-center justify-center shadow-2xl border-4 border-emerald-300/40 relative active:brightness-110 my-2 cursor-pointer">
-                <span class="text-5xl filter drop-shadow-md">🪙</span>
+        <div id="coin-container" class="relative flex items-center justify-center my-6">
+            <button id="tap-btn" class="crypto-coin w-40 h-40 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-700 flex flex-col items-center justify-center shadow-2xl border-4 border-emerald-300/40 relative active:brightness-110 cursor-pointer">
+                <span class="text-6xl filter drop-shadow-md">🪙</span>
                 <span class="text-[10px] font-bold text-slate-950 uppercase tracking-wider mt-1 bg-white/20 px-2 py-0.5 rounded-full">¡MINAR!</span>
             </button>
         </div>
-    </main>
 
-    <!-- TIENDA DE MEJORAS (panel semi-transparente) -->
-    <section class="w-full max-w-md mx-auto glass-panel p-4 rounded-2xl shadow-xl space-y-3 relative z-10">
-        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">🛒 Tienda de Mejoras</h2>
-
-        <!-- Mejora 1: Clics -->
-        <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
+        <!-- Botón de Recompensa Diaria rápida -->
+        <div class="w-full glass-panel p-3 rounded-2xl flex items-center justify-between shadow-lg">
             <div>
-                <p class="text-xs font-bold text-emerald-400">⚡ Fuerza de Clic (+1/toque)</p>
-                <p class="text-[10px] text-slate-400">Costo: <span id="click-cost" class="text-amber-400 font-semibold">10</span> USDT</p>
+                <p class="text-xs font-bold text-amber-400">🎁 Bono Diario</p>
+                <p class="text-[10px] text-slate-400" id="daily-timer">¡Reclama 500 USDT gratis!</p>
             </div>
-            <button id="buy-click-btn" class="bg-emerald-600 active:bg-emerald-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">
-                Comprar
+            <button id="daily-btn" class="bg-amber-500 active:bg-amber-600 text-slate-950 text-xs font-bold px-4 py-2 rounded-xl shadow-md transition-all">
+                Reclamar
             </button>
         </div>
+    </div>
 
-        <!-- Mejora 2: Auto Minero -->
-        <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
-            <div>
-                <p class="text-xs font-bold text-cyan-400">💻 Rig de Minería (+1/seg)</p>
-                <p class="text-[10px] text-slate-400">Costo: <span id="miner-cost" class="text-amber-400 font-semibold">50</span> USDT</p>
+    <!-- VISTA 2: TIENDA Y MEJORAS -->
+    <div id="view-store" class="w-full max-w-md mx-auto space-y-3 relative z-10 hidden">
+        
+        <!-- Sección Mejoras -->
+        <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">🛒 Tienda de Mejoras</h2>
+
+            <!-- Mejora 1: Clics -->
+            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
+                <div>
+                    <p class="text-xs font-bold text-emerald-400">⚡ Fuerza de Clic (+1)</p>
+                    <p class="text-[10px] text-slate-400">Costo: <span id="click-cost" class="text-amber-400 font-semibold">10</span> USDT</p>
+                </div>
+                <button id="buy-click-btn" class="bg-emerald-600 active:bg-emerald-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Comprar</button>
             </div>
-            <button id="buy-miner-btn" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">
-                Comprar
-            </button>
+
+            <!-- Mejora 2: Rig -->
+            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
+                <div>
+                    <p class="text-xs font-bold text-cyan-400">💻 Rig Minería (+1/seg)</p>
+                    <p class="text-[10px] text-slate-400">Costo: <span id="miner-cost" class="text-amber-400 font-semibold">50</span> USDT</p>
+                </div>
+                <button id="buy-miner-btn" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Comprar</button>
+            </div>
+
+            <!-- Mejora 3: Granja -->
+            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
+                <div>
+                    <p class="text-xs font-bold text-purple-400">🏭 Granja Crypto (+5/seg)</p>
+                    <p class="text-[10px] text-slate-400">Costo: <span id="farm-cost" class="text-amber-400 font-semibold">250</span> USDT</p>
+                </div>
+                <button id="buy-farm-btn" class="bg-purple-600 active:bg-purple-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Comprar</button>
+            </div>
+
+            <!-- Mejora 4: Servidor Cuántico (Nuevo) -->
+            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
+                <div>
+                    <p class="text-xs font-bold text-rose-400">🚀 Servidor Cuántico (+25/seg)</p>
+                    <p class="text-[10px] text-slate-400">Costo: <span id="quantum-cost" class="text-amber-400 font-semibold">1,200</span> USDT</p>
+                </div>
+                <button id="buy-quantum-btn" class="bg-rose-600 active:bg-rose-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Comprar</button>
+            </div>
         </div>
 
-        <!-- Mejora 3: Granja Crypto -->
-        <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
-            <div>
-                <p class="text-xs font-bold text-purple-400">🏭 Granja Crypto (+5/seg)</p>
-                <p class="text-[10px] text-slate-400">Costo: <span id="farm-cost" class="text-amber-400 font-semibold">250</span> USDT</p>
+        <!-- Sección Logros / Misiones -->
+        <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">🏆 Misiones y Logros</h2>
+            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
+                <div>
+                    <p class="text-xs font-bold text-amber-400" id="achievement-title">Primeros Pasos (10 Clics)</p>
+                    <p class="text-[10px] text-slate-400">Recompensa: +100 USDT</p>
+                </div>
+                <button id="claim-achievement-btn" class="bg-amber-500 active:bg-amber-600 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Reclamar</button>
             </div>
-            <button id="buy-farm-btn" class="bg-purple-600 active:bg-purple-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">
-                Comprar
-            </button>
         </div>
-    </section>
+    </div>
 
     <script>
         let state = {
@@ -157,7 +185,11 @@
             cps: 0,
             clickCost: 10,
             minerCost: 50,
-            farmCost: 250
+            farmCost: 250,
+            quantumCost: 1200,
+            totalClicks: 0,
+            lastDaily: 0,
+            achievementClaimed: false
         };
 
         const saved = localStorage.getItem('crypto_survivor_save');
@@ -178,10 +210,37 @@
         const clickCostEl = document.getElementById('click-cost');
         const minerCostEl = document.getElementById('miner-cost');
         const farmCostEl = document.getElementById('farm-cost');
+        const quantumCostEl = document.getElementById('quantum-cost');
 
         const buyClickBtn = document.getElementById('buy-click-btn');
         const buyMinerBtn = document.getElementById('buy-miner-btn');
         const buyFarmBtn = document.getElementById('buy-farm-btn');
+        const buyQuantumBtn = document.getElementById('buy-quantum-btn');
+
+        const tabGame = document.getElementById('tab-game');
+        const tabStore = document.getElementById('tab-store');
+        const viewGame = document.getElementById('view-game');
+        const viewStore = document.getElementById('view-store');
+
+        const dailyBtn = document.getElementById('daily-btn');
+        const dailyTimer = document.getElementById('daily-timer');
+        const achievementTitle = document.getElementById('achievement-title');
+        const claimAchievementBtn = document.getElementById('claim-achievement-btn');
+
+        // Pestañas
+        tabGame.addEventListener('click', () => {
+            viewGame.classList.remove('hidden');
+            viewStore.classList.add('hidden');
+            tabGame.className = "bg-emerald-600 text-slate-950 font-bold text-xs py-2 rounded-xl shadow-md transition-all";
+            tabStore.className = "bg-slate-900/80 text-slate-300 font-bold text-xs py-2 rounded-xl border border-slate-800 shadow-md transition-all";
+        });
+
+        tabStore.addEventListener('click', () => {
+            viewGame.classList.add('hidden');
+            viewStore.classList.remove('hidden');
+            tabStore.className = "bg-emerald-600 text-slate-950 font-bold text-xs py-2 rounded-xl shadow-md transition-all";
+            tabGame.className = "bg-slate-900/80 text-slate-300 font-bold text-xs py-2 rounded-xl border border-slate-800 shadow-md transition-all";
+        });
 
         if (window.Telegram && window.Telegram.WebApp) {
             const tg = window.Telegram.WebApp;
@@ -197,6 +256,7 @@
 
         tapBtn.addEventListener('click', (e) => {
             state.score += state.clickPower;
+            state.totalClicks += 1;
             createFloatingText(e);
             createSparkles(e);
             updateUI();
@@ -239,6 +299,7 @@
             }
         }
 
+        // Compras de mejoras
         buyClickBtn.addEventListener('click', () => {
             if (state.score >= state.clickCost) {
                 state.score -= state.clickCost;
@@ -269,6 +330,39 @@
             }
         });
 
+        buyQuantumBtn.addEventListener('click', () => {
+            if (state.score >= state.quantumCost) {
+                state.score -= state.quantumCost;
+                state.cps += 25;
+                state.quantumCost = Math.round(state.quantumCost * 1.8);
+                updateUI();
+                saveGame();
+            }
+        });
+
+        // Bono Diario
+        dailyBtn.addEventListener('click', () => {
+            const now = Date.now();
+            if (now - state.lastDaily > 24 * 60 * 60 * 1000) {
+                state.score += 500;
+                state.lastDaily = now;
+                updateUI();
+                saveGame();
+                alert("¡Has reclamado 500 USDT de tu bono diario!");
+            }
+        });
+
+        // Reclamar Logro
+        claimAchievementBtn.addEventListener('click', () => {
+            if (!state.achievementClaimed && state.totalClicks >= 50) {
+                state.score += 100;
+                state.achievementClaimed = true;
+                updateUI();
+                saveGame();
+                alert("¡Logro completado! +100 USDT añadidos.");
+            }
+        });
+
         setInterval(() => {
             if (state.cps > 0) {
                 state.score += state.cps;
@@ -284,26 +378,34 @@
             clickCostEl.textContent = state.clickCost.toLocaleString();
             minerCostEl.textContent = state.minerCost.toLocaleString();
             farmCostEl.textContent = state.farmCost.toLocaleString();
+            quantumCostEl.textContent = state.quantumCost.toLocaleString();
+
             buyClickBtn.disabled = state.score < state.clickCost;
             buyMinerBtn.disabled = state.score < state.minerCost;
             buyFarmBtn.disabled = state.score < state.farmCost;
-            if (state.score < 500) {
-                userRankEl.textContent = "Novato 🐣";
-                rankBarEl.style.width = `${(state.score / 500) * 100}%`;
-            } else if (state.score < 5000) {
-                userRankEl.textContent = "Trader 📈";
-                rankBarEl.style.width = `${((state.score - 500) / 4500) * 100}%`;
+            buyQuantumBtn.disabled = state.score < state.quantumCost;
+
+            // Logro UI
+            if (state.achievementClaimed) {
+                achievementTitle.textContent = "¡Logro Completado! ✅";
+                claimAchievementBtn.disabled = true;
+                claimAchievementBtn.textContent = "Reclamado";
+            } else if (state.totalClicks >= 50) {
+                claimAchievementBtn.disabled = false;
             } else {
-                userRankEl.textContent = "Ballena 🐋";
-                rankBarEl.style.width = `100%`;
+                claimAchievementBtn.disabled = true;
+                claimAchievementBtn.textContent = `${state.totalClicks}/50 Clics`;
             }
-        }
 
-        function saveGame() {
-            localStorage.setItem('crypto_survivor_save', JSON.stringify(state));
-        }
-
-        actualizarUI ( ) ;
-    </script>​​
-</body>​​
-</html>​​
+            // Bono diario timer simple
+            const now = Date.now();
+            const diff = now - state.lastDaily;
+            if (diff < 24 * 60 * 60 * 1000) {
+                dailyBtn.disabled = true;
+                dailyBtn.textContent = "Reclamado";
+                dailyTimer.textContent = "Vuelve mañana por más";
+            } else {
+                dailyBtn.disabled = false;
+                dailyBtn.textContent = "Reclamar";
+                dailyTimer.textContent = "¡Reclama 500 USDT gratis!";
+ 
