@@ -128,8 +128,23 @@
         </div>
     </div>
 
-    <!-- VISTA 2: TIENDA & PRESTIGIO -->
+    <!-- VISTA 2: TIENDA & ESTRELLAS -->
     <div id="view-store" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
+        <!-- Monetización con Telegram Stars -->
+        <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-2 border-yellow-500/50 bg-slate-900/90">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-yellow-400">⭐ Tienda Telegram Stars</h2>
+            <p class="text-[11px] text-slate-300">Obtén una inyección masiva instantánea de USDT mediante pagos oficiales de Telegram.</p>
+            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-yellow-500/30 mt-2">
+                <div>
+                    <p class="text-xs font-bold text-emerald-400">💰 Pack de 15,000 USDT</p>
+                    <p class="text-[10px] text-yellow-400 font-mono">Costo: 50 ⭐ Stars</p>
+                </div>
+                <button id="buy-stars-btn" class="bg-yellow-500 active:bg-yellow-600 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg shadow-md transition-all">
+                    Comprar
+                </button>
+            </div>
+        </div>
+
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
             <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">🛒 Tienda de Mejoras</h2>
 
@@ -271,6 +286,7 @@
         const buyMinerBtn = document.getElementById('buy-miner-btn');
         const buyFarmBtn = document.getElementById('buy-farm-btn');
         const buyQuantumBtn = document.getElementById('buy-quantum-btn');
+        const buyStarsBtn = document.getElementById('buy-stars-btn');
         const halvingBtn = document.getElementById('halving-btn');
 
         const tabGame = document.getElementById('tab-game');
@@ -294,7 +310,6 @@
         const missionChannel = document.getElementById('mission-channel');
         const missionInvite = document.getElementById('mission-invite');
 
-        // Control de Pestañas
         function switchTab(activeBtn, activeView) {
             [tabGame, tabStore, tabTrading, tabMissions].forEach(btn => btn.className = "bg-slate-900/80 text-slate-300 font-bold text-[11px] py-2 rounded-xl border border-slate-800 shadow-md transition-all");
             [viewGame, viewStore, viewTrading, viewMissions].forEach(view => view.classList.add('hidden'));
@@ -320,7 +335,6 @@
             }
         }
 
-        // Minar principal con multiplicador
         function handleMine(e) {
             e.preventDefault();
             const earned = state.clickPower * state.multiplier;
@@ -340,7 +354,7 @@
 
         function createFloatingText(e, amount) {
             const rect = tapBtn.getBoundingClientRect();
-            const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : rect.left + rect.width / 2);
+    const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : rect.left + rect.width / 2);
             const clientY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : rect.top + rect.height / 2);
 
             const text = document.createElement('div');
@@ -375,7 +389,38 @@
             }
         }
 
-        // Compras de tienda
+        // Integración de Pago con Telegram Stars
+        buyStarsBtn.addEventListener('click', () => {
+            if (window.Telegram && window.Telegram.WebApp) {
+                const tg = window.Telegram.WebApp;
+                // Si tienes configurado tu invoice link desde BotFather, úsalo aquí. 
+                // Ejemplo de simulación si aún no hay link generado en BotFather:
+                if (tg.openInvoice) {
+                    // Reemplaza 'INVOICE_LINK_AQUÍ' con el enlace que te da BotFather al crear la factura de Estrellas
+                    /*
+                    tg.openInvoice('INVOICE_LINK_AQUÍ', (result) => {
+                        if (result === 'paid') {
+                            state.score += 15000;
+                            updateUI();
+                            saveGame();
+                            alert("¡Pago exitoso! +15,000 USDT añadidos.");
+                        }
+                    });
+                    */
+                }
+                // Modo prueba interactivo directo en el cliente si se testea en web pura:
+                state.score += 15000;
+                updateUI();
+                saveGame();
+                alert("⭐ [Modo Prueba Stars]: ¡Has adquirido 15,000 USDT con éxito!");
+            } else {
+                state.score += 15000;
+                updateUI();
+                saveGame();
+                alert("⭐ [Modo Prueba]: +15,000 USDT añadidos.");
+            }
+        });
+
         buyClickBtn.addEventListener('click', () => {
             if (state.score >= state.clickCost) {
                 state.score -= state.clickCost;
@@ -416,7 +461,6 @@
             }
         });
 
-        // Sistema de Prestigio (Halving)
         halvingBtn.addEventListener('click', () => {
             if (state.score >= 10000) {
                 state.score = 0;
@@ -429,11 +473,10 @@
                 state.quantumCost = 1200;
                 updateUI();
                 saveGame();
-                alert(" ¡Halving completado! Multiplicador permanente aumentado a " + state.multiplier + "x");
+                alert("⚡ ¡Halving completado! Multiplicador permanente aumentado a " + state.multiplier + "x");
             }
         });
 
-        // Minijuego Trading
         function startTrade(prediction) {
             if (state.score < 500) {
                 alert("Necesitas al menos 500 USDT para tradear.");
@@ -450,7 +493,7 @@
                 const won = (prediction === outcome);
                 if (won) {
                     state.score += 1000;
-                    tradeDisplay.textContent = " ¡GANASTE +1,000 USDT!";
+                    tradeDisplay.textContent = "🎉 ¡GANASTE +1,000 USDT!";
                 } else {
                     tradeDisplay.textContent = "❌ PERDISTE 500 USDT";
                 }
@@ -464,7 +507,6 @@
         tradeUp.addEventListener('click', () => startTrade("UP"));
         tradeDown.addEventListener('click', () => startTrade("DOWN"));
 
-        // Bono diario y misiones
         dailyBtn.addEventListener('click', () => {
             const now = Date.now();
             if (now - state.lastDaily > 24 * 60 * 60 * 1000) {
@@ -510,7 +552,6 @@
             }
         });
 
-        // Loop automático afectado por el multiplicador de prestigio
         setInterval(() => {
             if (state.cps > 0) {
                 state.score += state.cps * state.multiplier;
