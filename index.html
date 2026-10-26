@@ -102,15 +102,15 @@
             <p class="text-xs text-slate-400 mt-1">+<span id="click-power-text">1</span> por toque | +<span id="cps-text">0</span>/seg</p>
         </div>
 
-        <div id="coin-container" class="relative flex items-center justify-center my-6">
-            <button id="tap-btn" class="crypto-coin w-40 h-40 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-700 flex flex-col items-center justify-center shadow-2xl border-4 border-emerald-300/40 relative active:brightness-110 cursor-pointer">
+        <div id="coin-container" class="relative flex items-center justify-center my-6 w-full">
+            <button id="tap-btn" class="crypto-coin w-40 h-40 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-700 flex flex-col items-center justify-center shadow-2xl border-4 border-emerald-300/40 relative active:brightness-110 cursor-pointer mx-auto">
                 <span class="text-6xl filter drop-shadow-md">🪙</span>
                 <span class="text-[10px] font-bold text-slate-950 uppercase tracking-wider mt-1 bg-white/20 px-2 py-0.5 rounded-full">¡MINAR!</span>
             </button>
         </div>
 
         <!-- Botón de Recompensa Diaria rápida -->
-        <div class="w-full glass-panel p-3 rounded-2xl flex items-center justify-between shadow-lg">
+        <div class="w-full glass-panel p-3 rounded-2xl flex items-center justify-between shadow-lg mt-2">
             <div>
                 <p class="text-xs font-bold text-amber-400">🎁 Bono Diario</p>
                 <p class="text-[10px] text-slate-400" id="daily-timer">¡Reclama 500 USDT gratis!</p>
@@ -121,7 +121,7 @@
         </div>
     </div>
 
-    <!-- VISTA 2: TIENDA Y MEJORAS -->
+    <!-- VISTA 2: TIENDA Y MISIONES -->
     <div id="view-store" class="w-full max-w-md mx-auto space-y-3 relative z-10 hidden">
         
         <!-- Sección Mejoras -->
@@ -155,7 +155,7 @@
                 <button id="buy-farm-btn" class="bg-purple-600 active:bg-purple-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Comprar</button>
             </div>
 
-            <!-- Mejora 4: Servidor Cuántico (Nuevo) -->
+            <!-- Mejora 4: Servidor Cuántico -->
             <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
                 <div>
                     <p class="text-xs font-bold text-rose-400">🚀 Servidor Cuántico (+25/seg)</p>
@@ -170,7 +170,7 @@
             <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">🏆 Misiones y Logros</h2>
             <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
                 <div>
-                    <p class="text-xs font-bold text-amber-400" id="achievement-title">Primeros Pasos (10 Clics)</p>
+                    <p class="text-xs font-bold text-amber-400" id="achievement-title">Primeros Pasos (50 Clics)</p>
                     <p class="text-[10px] text-slate-400">Recompensa: +100 USDT</p>
                 </div>
                 <button id="claim-achievement-btn" class="bg-amber-500 active:bg-amber-600 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Reclamar</button>
@@ -254,6 +254,7 @@
             }
         }
 
+        // Evento de toque principal corregido
         tapBtn.addEventListener('click', (e) => {
             state.score += state.clickPower;
             state.totalClicks += 1;
@@ -299,7 +300,6 @@
             }
         }
 
-        // Compras de mejoras
         buyClickBtn.addEventListener('click', () => {
             if (state.score >= state.clickCost) {
                 state.score -= state.clickCost;
@@ -340,7 +340,6 @@
             }
         });
 
-        // Bono Diario
         dailyBtn.addEventListener('click', () => {
             const now = Date.now();
             if (now - state.lastDaily > 24 * 60 * 60 * 1000) {
@@ -352,7 +351,6 @@
             }
         });
 
-        // Reclamar Logro
         claimAchievementBtn.addEventListener('click', () => {
             if (!state.achievementClaimed && state.totalClicks >= 50) {
                 state.score += 100;
@@ -385,7 +383,6 @@
             buyFarmBtn.disabled = state.score < state.farmCost;
             buyQuantumBtn.disabled = state.score < state.quantumCost;
 
-            // Logro UI
             if (state.achievementClaimed) {
                 achievementTitle.textContent = "¡Logro Completado! ✅";
                 claimAchievementBtn.disabled = true;
@@ -397,7 +394,6 @@
                 claimAchievementBtn.textContent = `${state.totalClicks}/50 Clics`;
             }
 
-            // Bono diario timer simple
             const now = Date.now();
             const diff = now - state.lastDaily;
             if (diff < 24 * 60 * 60 * 1000) {
@@ -408,4 +404,7 @@
                 dailyBtn.disabled = false;
                 dailyBtn.textContent = "Reclamar";
                 dailyTimer.textContent = "¡Reclama 500 USDT gratis!";
- 
+            }
+
+            if (state.score < 500) {
+                userRankEl.textC
