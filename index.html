@@ -79,8 +79,11 @@
                     <p class="text-xs text-slate-400">Rango: <span id="user-rank" class="text-amber-400 font-semibold">Novato</span></p>
                 </div>
             </div>
-            <div class="bg-slate-950/80 px-3 py-1 rounded-full border border-slate-800 text-xs text-emerald-400 font-mono" id="market-status">
-                🟢 Bull Market
+            <div class="text-right">
+                <p class="text-[10px] text-amber-400 font-mono">⭐ Multiplicador: <span id="multiplier-text">1</span>x</p>
+                <div class="bg-slate-950/80 px-2 py-0.5 rounded-full border border-slate-800 text-[10px] text-emerald-400 font-mono inline-block">
+                    🟢 Bull Market
+                </div>
             </div>
         </div>
         <div class="w-full bg-slate-950/80 rounded-full h-1.5 overflow-hidden border border-slate-800">
@@ -89,9 +92,11 @@
     </header>
 
     <!-- Pestañas de Navegación -->
-    <nav class="w-full max-w-md mx-auto grid grid-cols-2 gap-2 my-3 relative z-10">
-        <button id="tab-game" class="bg-emerald-600 text-slate-950 font-bold text-xs py-2 rounded-xl shadow-md transition-all">🎮 Minar</button>
-        <button id="tab-store" class="bg-slate-900/80 text-slate-300 font-bold text-xs py-2 rounded-xl border border-slate-800 shadow-md transition-all">🛒 Tienda & Misiones</button>
+    <nav class="w-full max-w-md mx-auto grid grid-cols-4 gap-1 my-3 relative z-10">
+        <button id="tab-game" class="bg-emerald-600 text-slate-950 font-bold text-[11px] py-2 rounded-xl shadow-md transition-all">🎮 Minar</button>
+        <button id="tab-store" class="bg-slate-900/80 text-slate-300 font-bold text-[11px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🛒 Tienda</button>
+        <button id="tab-trading" class="bg-slate-900/80 text-slate-300 font-bold text-[11px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">📈 Trading</button>
+        <button id="tab-missions" class="bg-slate-900/80 text-slate-300 font-bold text-[11px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🎯 Misiones</button>
     </nav>
 
     <!-- VISTA 1: JUEGO -->
@@ -112,7 +117,6 @@
             </button>
         </div>
 
-        <!-- Botón de Recompensa Diaria rápida -->
         <div class="w-full glass-panel p-3 rounded-2xl flex items-center justify-between shadow-lg mt-2">
             <div>
                 <p class="text-xs font-bold text-amber-400">🎁 Bono Diario</p>
@@ -124,7 +128,7 @@
         </div>
     </div>
 
-    <!-- VISTA 2: TIENDA Y MISIONES -->
+    <!-- VISTA 2: TIENDA & PRESTIGIO -->
     <div id="view-store" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
             <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">🛒 Tienda de Mejoras</h2>
@@ -162,8 +166,59 @@
             </div>
         </div>
 
+        <!-- Sistema de Prestigio (Halving) -->
+        <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-2 border-amber-500/40">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">⚡ Halving de Bitcoin (Prestigio)</h2>
+            <p class="text-[11px] text-slate-300">Reinicia tu balance y mineros a cambio de <strong>+1x de multiplicador permanente</strong> a toda tu producción.</p>
+            <p class="text-[10px] text-slate-400">Requisito: 10,000 USDT</p>
+            <button id="halving-btn" class="w-full bg-amber-500 active:bg-amber-600 text-slate-950 font-bold text-xs py-2.5 rounded-xl shadow-md transition-all disabled:opacity-40 mt-1">
+                Ejecutar Halving 🌟
+            </button>
+        </div>
+    </div>
+
+    <!-- VISTA 3: TRADING RÁPIDO -->
+    <div id="view-trading" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
+        <div class="glass-panel p-5 rounded-2xl shadow-xl space-y-4 text-center">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-cyan-400">📈 Trading Bot (Sube o Baja)</h2>
+            <p class="text-xs text-slate-300">Apunta 500 USDT. Si el gráfico sube en 5 segundos, ¡ganas el doble!</p>
+            
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-xl text-emerald-400" id="trade-display">
+                STATUS: ESPERANDO...
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <button id="trade-up" class="bg-emerald-600 active:bg-emerald-700 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all">
+                    🚀 Subirá (CALL)
+                </button>
+                <button id="trade-down" class="bg-rose-600 active:bg-rose-700 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all">
+                    📉 Bajará (PUT)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VISTA 4: MISIONES Y SOCIAL -->
+    <div id="view-missions" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">🏆 Misiones y Logros</h2>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">🎯 Misiones de Telegram</h2>
+
+            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
+                <div>
+                    <p class="text-xs font-bold text-emerald-400">💬 Únete al Canal Oficial</p>
+                    <p class="text-[10px] text-slate-400">Recompensa: +1,000 USDT</p>
+                </div>
+                <button id="mission-channel" class="bg-emerald-600 active:bg-emerald-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all">Visitar</button>
+            </div>
+
+            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
+                <div>
+                    <p class="text-xs font-bold text-cyan-400">👥 Invita a un Amigo</p>
+                    <p class="text-[10px] text-slate-400">Recompensa: +2,500 USDT</p>
+                </div>
+                <button id="mission-invite" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all">Compartir</button>
+            </div>
+
             <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
                 <div>
                     <p class="text-xs font-bold text-amber-400" id="achievement-title">Primeros Pasos (50 Clics)</p>
@@ -179,13 +234,16 @@
             score: 0,
             clickPower: 1,
             cps: 0,
+            multiplier: 1,
             clickCost: 10,
             minerCost: 50,
             farmCost: 250,
             quantumCost: 1200,
             totalClicks: 0,
             lastDaily: 0,
-            achievementClaimed: false
+            achievementClaimed: false,
+            channelClaimed: false,
+            inviteClaimed: false
         };
 
         const saved = localStorage.getItem('crypto_survivor_save');
@@ -198,6 +256,7 @@
         const coinContainer = document.getElementById('coin-container');
         const clickPowerText = document.getElementById('click-power-text');
         const cpsText = document.getElementById('cps-text');
+        const multiplierText = document.getElementById('multiplier-text');
         const userNameEl = document.getElementById('user-name');
         const userAvatarEl = document.getElementById('user-avatar');
         const userRankEl = document.getElementById('user-rank');
@@ -212,30 +271,42 @@
         const buyMinerBtn = document.getElementById('buy-miner-btn');
         const buyFarmBtn = document.getElementById('buy-farm-btn');
         const buyQuantumBtn = document.getElementById('buy-quantum-btn');
+        const halvingBtn = document.getElementById('halving-btn');
 
         const tabGame = document.getElementById('tab-game');
         const tabStore = document.getElementById('tab-store');
+        const tabTrading = document.getElementById('tab-trading');
+        const tabMissions = document.getElementById('tab-missions');
+
         const viewGame = document.getElementById('view-game');
         const viewStore = document.getElementById('view-store');
+        const viewTrading = document.getElementById('view-trading');
+        const viewMissions = document.getElementById('view-missions');
 
         const dailyBtn = document.getElementById('daily-btn');
         const dailyTimer = document.getElementById('daily-timer');
         const achievementTitle = document.getElementById('achievement-title');
         const claimAchievementBtn = document.getElementById('claim-achievement-btn');
+        
+        const tradeDisplay = document.getElementById('trade-display');
+        const tradeUp = document.getElementById('trade-up');
+        const tradeDown = document.getElementById('trade-down');
+        const missionChannel = document.getElementById('mission-channel');
+        const missionInvite = document.getElementById('mission-invite');
 
-        tabGame.addEventListener('click', () => {
-            viewGame.classList.remove('hidden');
-            viewStore.classList.add('hidden');
-            tabGame.className = "bg-emerald-600 text-slate-950 font-bold text-xs py-2 rounded-xl shadow-md transition-all";
-            tabStore.className = "bg-slate-900/80 text-slate-300 font-bold text-xs py-2 rounded-xl border border-slate-800 shadow-md transition-all";
-        });
+        // Control de Pestañas
+        function switchTab(activeBtn, activeView) {
+            [tabGame, tabStore, tabTrading, tabMissions].forEach(btn => btn.className = "bg-slate-900/80 text-slate-300 font-bold text-[11px] py-2 rounded-xl border border-slate-800 shadow-md transition-all");
+            [viewGame, viewStore, viewTrading, viewMissions].forEach(view => view.classList.add('hidden'));
+            
+            activeBtn.className = "bg-emerald-600 text-slate-950 font-bold text-[11px] py-2 rounded-xl shadow-md transition-all";
+            activeView.classList.remove('hidden');
+        }
 
-        tabStore.addEventListener('click', () => {
-            viewGame.classList.add('hidden');
-            viewStore.classList.remove('hidden');
-            tabStore.className = "bg-emerald-600 text-slate-950 font-bold text-xs py-2 rounded-xl shadow-md transition-all";
-            tabGame.className = "bg-slate-900/80 text-slate-300 font-bold text-xs py-2 rounded-xl border border-slate-800 shadow-md transition-all";
-        });
+        tabGame.addEventListener('click', () => switchTab(tabGame, viewGame));
+        tabStore.addEventListener('click', () => switchTab(tabStore, viewStore));
+        tabTrading.addEventListener('click', () => switchTab(tabTrading, viewTrading));
+        tabMissions.addEventListener('click', () => switchTab(tabMissions, viewMissions));
 
         if (window.Telegram && window.Telegram.WebApp) {
             const tg = window.Telegram.WebApp;
@@ -249,12 +320,13 @@
             }
         }
 
-        // Función de clic directa optimizada con soporte táctil total
+        // Minar principal con multiplicador
         function handleMine(e) {
             e.preventDefault();
-            state.score += state.clickPower;
+            const earned = state.clickPower * state.multiplier;
+            state.score += earned;
             state.totalClicks += 1;
-            createFloatingText(e);
+            createFloatingText(e, earned);
             createSparkles(e);
             updateUI();
             saveGame();
@@ -266,14 +338,14 @@
         tapBtn.addEventListener('click', handleMine);
         tapBtn.addEventListener('touchstart', handleMine, { passive: false });
 
-        function createFloatingText(e) {
+        function createFloatingText(e, amount) {
             const rect = tapBtn.getBoundingClientRect();
             const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : rect.left + rect.width / 2);
             const clientY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : rect.top + rect.height / 2);
 
             const text = document.createElement('div');
             text.className = 'floating-text font-mono text-xl';
-            text.textContent = `+${state.clickPower}`;
+            text.textContent = `+${amount}`;
             
             const x = clientX - rect.left - 10;
             const y = clientY - rect.top - 20;
@@ -303,6 +375,7 @@
             }
         }
 
+        // Compras de tienda
         buyClickBtn.addEventListener('click', () => {
             if (state.score >= state.clickCost) {
                 state.score -= state.clickCost;
@@ -343,6 +416,55 @@
             }
         });
 
+        // Sistema de Prestigio (Halving)
+        halvingBtn.addEventListener('click', () => {
+            if (state.score >= 10000) {
+                state.score = 0;
+                state.clickPower = 1;
+                state.cps = 0;
+                state.multiplier += 1;
+                state.clickCost = 10;
+                state.minerCost = 50;
+                state.farmCost = 250;
+                state.quantumCost = 1200;
+                updateUI();
+                saveGame();
+                alert(" ¡Halving completado! Multiplicador permanente aumentado a " + state.multiplier + "x");
+            }
+        });
+
+        // Minijuego Trading
+        function startTrade(prediction) {
+            if (state.score < 500) {
+                alert("Necesitas al menos 500 USDT para tradear.");
+                return;
+            }
+            state.score -= 500;
+            updateUI();
+            tradeUp.disabled = true;
+            tradeDown.disabled = true;
+            tradeDisplay.textContent = "ANALIZANDO MERCADO...";
+
+            setTimeout(() => {
+                const outcome = Math.random() > 0.5 ? "UP" : "DOWN";
+                const won = (prediction === outcome);
+                if (won) {
+                    state.score += 1000;
+                    tradeDisplay.textContent = " ¡GANASTE +1,000 USDT!";
+                } else {
+                    tradeDisplay.textContent = "❌ PERDISTE 500 USDT";
+                }
+                tradeUp.disabled = false;
+                tradeDown.disabled = false;
+                updateUI();
+                saveGame();
+            }, 3000);
+        }
+
+        tradeUp.addEventListener('click', () => startTrade("UP"));
+        tradeDown.addEventListener('click', () => startTrade("DOWN"));
+
+        // Bono diario y misiones
         dailyBtn.addEventListener('click', () => {
             const now = Date.now();
             if (now - state.lastDaily > 24 * 60 * 60 * 1000) {
@@ -364,9 +486,34 @@
             }
         });
 
+        missionChannel.addEventListener('click', () => {
+            if (!state.channelClaimed) {
+                state.score += 1000;
+                state.channelClaimed = true;
+                missionChannel.disabled = true;
+                missionChannel.textContent = "Completado";
+                updateUI();
+                saveGame();
+                alert("¡+1,000 USDT reclamados por unirte al canal!");
+            }
+        });
+
+        missionInvite.addEventListener('click', () => {
+            if (!state.inviteClaimed) {
+                state.score += 2500;
+                state.inviteClaimed = true;
+                missionInvite.disabled = true;
+                missionInvite.textContent = "Completado";
+                updateUI();
+                saveGame();
+                alert("¡+2,500 USDT reclamados por invitar amigos!");
+            }
+        });
+
+        // Loop automático afectado por el multiplicador de prestigio
         setInterval(() => {
             if (state.cps > 0) {
-                state.score += state.cps;
+                state.score += state.cps * state.multiplier;
                 updateUI();
                 saveGame();
             }
@@ -374,8 +521,10 @@
 
         function updateUI() {
             scoreEl.textContent = Math.floor(state.score).toLocaleString();
-            clickPowerText.textContent = state.clickPower;
-            cpsText.textContent = state.cps;
+            clickPowerText.textContent = state.clickPower * state.multiplier;
+            cpsText.textContent = state.cps * state.multiplier;
+            multiplierText.textContent = state.multiplier;
+
             clickCostEl.textContent = state.clickCost.toLocaleString();
             minerCostEl.textContent = state.minerCost.toLocaleString();
             farmCostEl.textContent = state.farmCost.toLocaleString();
@@ -385,6 +534,7 @@
             buyMinerBtn.disabled = state.score < state.minerCost;
             buyFarmBtn.disabled = state.score < state.farmCost;
             buyQuantumBtn.disabled = state.score < state.quantumCost;
+            halvingBtn.disabled = state.score < 10000;
 
             if (state.achievementClaimed) {
                 achievementTitle.textContent = "¡Logro Completado! ✅";
