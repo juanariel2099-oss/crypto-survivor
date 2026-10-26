@@ -2,145 +2,110 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Survivor</title>
-    <!-- Tailwind CSS para diseño moderno -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- SDK Oficial de Telegram Web Apps -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(16, 185, 129, 0.8); }
+        }
+        .crypto-coin {
+            animation: pulse-glow 3s infinite;
+        }
+        .click-effect:active {
+            transform: scale(0.92);
+        }
+    </style>
 </head>
-<body class="bg-slate-900 text-white font-sans select-none min-h-screen flex flex-col justify-between p-4">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between p-4 font-sans select-none">
 
-    <!-- Header con info del usuario y mercado -->
-    <div class="flex justify-between items-center bg-slate-800 p-3 rounded-xl border border-slate-700">
-        <div class="flex items-center space-x-2">
-            <span class="text-2xl">👤</span>
+    <!-- Header / Info del usuario -->
+    <header class="w-full max-w-md mx-auto flex justify-between items-center bg-slate-900/80 border border-slate-800 p-3 rounded-2xl backdrop-blur-md shadow-lg">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center font-bold text-slate-950 text-lg shadow-md" id="user-avatar">CS</div>
             <div>
-                <p id="user-name" class="font-bold text-sm text-emerald-400">Inversor Novato</p>
-                <p class="text-xs text-slate-400">Estatus: HODLER</p>
+                <h1 id="user-name" class="font-bold text-sm text-emerald-400">Crypto Survivor</h1>
+                <p class="text-xs text-slate-400">Rango: <span id="user-rank" class="text-amber-400 font-semibold">Novato</span></p>
             </div>
         </div>
-        <div id="market-status" class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-500/30">
-            🟢 BULL RUN (+0%)
+        <div class="bg-slate-950 px-3 py-1 rounded-full border border-slate-800 text-xs text-emerald-400 font-mono" id="market-status">
+            🟢 Bull Market
         </div>
-    </div>
+    </header>
 
-    <!-- Contador de Dinero -->
-    <div class="text-center my-6">
-        <p class="text-slate-400 text-sm uppercase tracking-wider mb-1">Capital Total</p>
-        <h1 class="text-4xl font-extrabold text-emerald-400">$<span id="balance">0</span></h1>
-        <p class="text-xs text-slate-400 mt-1">+<span id="income-per-sec">0</span>/seg pasivo</p>
-    </div>
+    <!-- Zona central: Contador y Moneda clickeable -->
+    <main class="w-full max-w-md mx-auto flex flex-col items-center justify-center my-auto py-6">
+        <div class="text-center mb-6">
+            <p class="text-xs uppercase tracking-widest text-slate-400 mb-1 font-semibold">Balance Total</p>
+            <div class="flex items-center justify-center space-x-2">
+                <span class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 font-mono" id="score">0</span>
+                <span class="text-xl font-bold text-emerald-500">USDT</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">+<span id="click-power">1</span> por toque</p>
+        </div>
 
-    <!-- Botón Principal (El Tap) -->
-    <div class="flex justify-center items-center my-auto">
-        <button id="tap-btn" class="w-48 h-48 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-400 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-emerald-500/30 border-4 border-slate-800 flex flex-col items-center justify-center cursor-pointer">
-            <span class="text-6xl mb-1">🚀</span>
-            <span class="font-bold text-lg text-slate-900">¡HODL!</span>
+        <!-- Botón principal de la moneda -->
+        <button id="tap-btn" class="crypto-coin click-effect w-44 h-44 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-700 flex flex-col items-center justify-center shadow-2xl border-4 border-emerald-300/40 relative active:brightness-110 transition-all">
+            <span class="text-6xl filter drop-shadow-md">🪙</span>
+            <span class="text-xs font-bold text-slate-950 uppercase tracking-wider mt-1 bg-white/20 px-3 py-0.5 rounded-full">¡MINAR!</span>
         </button>
-    </div>
+    </main>
 
-    <!-- Panel de Mejoras -->
-    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-        <h2 class="text-sm font-bold text-slate-300 mb-3 uppercase tracking-wide">Inversiones Pasivas</h2>
-        <div class="space-y-2">
-            <button id="buy-bot-btn" class="w-full bg-slate-700 hover:bg-slate-600 disabled:opacity-50 p-3 rounded-lg flex justify-between items-center text-left transition">
-                <div>
-                    <p class="font-bold text-sm">🤖 Bot de Arbitraje</p>
-                    <p class="text-xs text-slate-400">+1 $/seg</p>
-                </div>
-                <div class="text-right">
-                    <span class="text-xs text-emerald-400 font-bold">$<span id="bot-cost">15</span></span>
-                    <p class="text-[10px] text-slate-400">Nivel <span id="bot-level">0</span></p>
-                </div>
-            </button>
+    <!-- Panel inferior / Estadísticas rápidas -->
+    <footer class="w-full max-w-md mx-auto bg-slate-900/80 border border-slate-800 p-4 rounded-2xl backdrop-blur-md shadow-lg flex justify-around text-center">
+        <div>
+            <p class="text-xs text-slate-400">Por segundo</p>
+            <p class="text-sm font-bold text-cyan-400 font-mono" id="cps">0.0</p>
         </div>
-    </div>
+        <div class="border-r border-slate-800"></div>
+        <div>
+            <p class="text-xs text-slate-400">Total clics</p>
+            <p class="text-sm font-bold text-amber-400 font-mono" id="total-taps">0</p>
+        </div>
+    </footer>
 
     <script>
-        // Inicializar SDK de Telegram
-        const tg = window.Telegram.WebApp;
-        tg.expand(); // Ocupar toda la pantalla
+        let score = 0;
+        let totalTaps = 0;
+        let clickPower = 1;
 
-        // Intentar obtener datos del usuario desde Telegram
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            document.getElementById('user-name').innerText = tg.initDataUnsafe.user.first_name;
-        }
-
-        // Variables del Estado del Juego
-        let balance = 0;
-        let perClick = 1;
-        let perSecond = 0;
-        let botLevel = 0;
-        let botCost = 15;
-        let multiplier = 1;
-
-        // Elementos DOM
-        const balanceEl = document.getElementById('balance');
-        const incomeEl = document.getElementById('income-per-sec');
+        const scoreEl = document.getElementById('score');
         const tapBtn = document.getElementById('tap-btn');
-        const buyBotBtn = document.getElementById('buy-bot-btn');
-        const botCostEl = document.getElementById('bot-cost');
-        const botLevelEl = document.getElementById('bot-level');
-        const marketStatusEl = document.getElementById('market-status');
+        const totalTapsEl = document.getElementById('total-taps');
+        const userNameEl = document.getElementById('user-name');
+        const userAvatarEl = document.getElementById('user-avatar');
 
-        // Mecánica de Tap
-        tapBtn.addEventListener('click', (e) => {
-            balance += (perClick * multiplier);
-            updateUI();
-            
-            // Vibración háptica de Telegram
-            if (tg.HapticFeedback) {
-                tg.HapticFeedback.impactOccurred('light');
-            }
-        });
-
-        // Comprar Bot de Arbitraje
-        buyBotBtn.addEventListener('click', () => {
-            if (balance >= botCost) {
-                balance -= botCost;
-                botLevel++;
-                perSecond += 1;
-                botCost = Math.floor(botCost * 1.5);
-                
-                botCostEl.innerText = botCost;
-                botLevelEl.innerText = botLevel;
-                incomeEl.innerText = perSecond * multiplier;
-                updateUI();
-                
-                if (tg.HapticFeedback) {
-                    tg.HapticFeedback.notificationOccurred('success');
+        // Integración con Telegram WebApp si está disponible
+        if (window.Telegram && window.Telegram.WebApp) {
+            const tg = window.Telegram.WebApp;
+            tg.expand();
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                const user = tg.initDataUnsafe.user;
+                userNameEl.textContent = user.first_name || "Crypto Survivor";
+                if (user.first_name) {
+                    userAvatarEl.textContent = user.first_name.charAt(0).toUpperCase();
                 }
             }
+        }
+
+        // Evento de clic en la moneda
+        tapBtn.addEventListener('click', () => {
+            score += clickPower;
+            totalTaps += 1;
+            updateUI();
+            
+            // Vibración háptica en celulares si está soportado por Telegram
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+            }
         });
 
-        // Bucle de Ingresos Pasivos (Cada segundo)
-        setInterval(() => {
-            balance += (perSecond * multiplier);
-            updateUI();
-        }, 1000);
-
-        // Evento Aleatorio del Mercado (Cada 15 segundos)
-        setInterval(() => {
-            const isCrash = Math.random() < 0.4; // 40% probabilidad de Crash
-            if (isCrash) {
-                multiplier = 0.5;
-                marketStatusEl.className = "bg-rose-500/20 text-rose-400 text-xs font-bold px-2.5 py-1 rounded-full border border-rose-500/30";
-                marketStatusEl.innerText = "🔴 CRASH (-50%)";
-            } else {
-                multiplier = 2;
-                marketStatusEl.className = "bg-emerald-500/20 text-emerald-400 text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-500/30";
-                marketStatusEl.innerText = "🚀 BULL RUN (x2)";
-            }
-            incomeEl.innerText = perSecond * multiplier;
-        }, 15000);
-
-        // Actualizar la pantalla
         function updateUI() {
-            balanceEl.innerText = Math.floor(balance);
-            buyBotBtn.disabled = balance < botCost;
+            scoreEl.textContent = score.toLocaleString();
+            totalTapsEl.textContent = totalTaps.toLocaleString();
         }
     </script>
 </body>
-  </html>
-  
+</html>
