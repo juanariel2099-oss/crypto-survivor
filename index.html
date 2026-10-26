@@ -80,9 +80,9 @@
                 </div>
             </div>
             <div class="text-right">
-                <p class="text-[10px] text-amber-400 font-mono">⭐ Multiplicador: <span id="multiplier-text">1</span>x</p>
-                <div class="bg-slate-950/80 px-2 py-0.5 rounded-full border border-slate-800 text-[10px] text-emerald-400 font-mono inline-block">
-                    🟢 Bull Market
+                <p class="text-[10px] text-amber-400 font-mono">⭐ Mult: <span id="multiplier-text">1</span>x</p>
+                <div id="market-badge" class="bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/30 text-[10px] text-emerald-400 font-mono inline-block">
+                    🟢 Bull Market (x2)
                 </div>
             </div>
         </div>
@@ -92,11 +92,12 @@
     </header>
 
     <!-- Pestañas de Navegación -->
-    <nav class="w-full max-w-md mx-auto grid grid-cols-4 gap-1 my-3 relative z-10">
-        <button id="tab-game" class="bg-emerald-600 text-slate-950 font-bold text-[11px] py-2 rounded-xl shadow-md transition-all">🎮 Minar</button>
-        <button id="tab-store" class="bg-slate-900/80 text-slate-300 font-bold text-[11px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🛒 Tienda</button>
-        <button id="tab-trading" class="bg-slate-900/80 text-slate-300 font-bold text-[11px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">📈 Trading</button>
-        <button id="tab-missions" class="bg-slate-900/80 text-slate-300 font-bold text-[11px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🎯 Misiones</button>
+    <nav class="w-full max-w-md mx-auto grid grid-cols-5 gap-1 my-3 relative z-10">
+        <button id="tab-game" class="bg-emerald-600 text-slate-950 font-bold text-[10px] py-2 rounded-xl shadow-md transition-all">🎮 Minar</button>
+        <button id="tab-store" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🛒 Tienda</button>
+        <button id="tab-wheel" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🎡 Ruleta</button>
+        <button id="tab-trading" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">📈 Trade</button>
+        <button id="tab-social" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">👥 Clan/Skins</button>
     </nav>
 
     <!-- VISTA 1: JUEGO -->
@@ -112,7 +113,7 @@
 
         <div id="coin-container" class="relative flex items-center justify-center my-6 w-full">
             <button id="tap-btn" class="crypto-coin w-40 h-40 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-700 flex flex-col items-center justify-center shadow-2xl border-4 border-emerald-300/40 relative active:brightness-110 mx-auto">
-                <span class="text-6xl filter drop-shadow-md">🪙</span>
+                <span id="coin-icon" class="text-6xl filter drop-shadow-md">🪙</span>
                 <span class="text-[10px] font-bold text-slate-950 uppercase tracking-wider mt-1 bg-white/20 px-2 py-0.5 rounded-full pointer-events-none">¡MINAR!</span>
             </button>
         </div>
@@ -190,7 +191,29 @@
         </div>
     </div>
 
-    <!-- VISTA 3: TRADING RÁPIDO -->
+    <!-- VISTA 3: RULETA DIARIA Y EXTRA POR STARS -->
+    <div id="view-wheel" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
+        <div class="glass-panel p-5 rounded-2xl shadow-xl space-y-4 text-center">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">🎡 Ruleta de la Fortuna Crypto</h2>
+            <p class="text-xs text-slate-300">¡Prueba tu suerte! 1 Giro GRATIS cada 24hs o desbloquea giros extra por Telegram Stars.</p>
+
+            <div class="bg-slate-950 p-6 rounded-2xl border border-amber-500/30 flex flex-col items-center justify-center space-y-2">
+                <div id="wheel-display" class="text-5xl my-2">🎁</div>
+                <p id="wheel-status" class="text-sm font-bold text-emerald-400">¡Giro Listo!</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-2">
+                <button id="spin-free-btn" class="bg-amber-500 active:bg-amber-600 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all">
+                    🎡 Giro Gratis Diario
+                </button>
+                <button id="spin-stars-btn" class="bg-yellow-500 active:bg-yellow-600 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all border border-yellow-300">
+                    ⭐ Giro Extra (10 Telegram Stars)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VISTA 4: TRADING -->
     <div id="view-trading" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
         <div class="glass-panel p-5 rounded-2xl shadow-xl space-y-4 text-center">
             <h2 class="text-xs font-bold uppercase tracking-wider text-cyan-400">📈 Trading Bot (Sube o Baja)</h2>
@@ -211,56 +234,50 @@
         </div>
     </div>
 
-    <!-- VISTA 4: MISIONES Y LOGROS MÚLTIPLES -->
-    <div id="view-missions" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
+    <!-- VISTA 5: CLAN & SKINS -->
+    <div id="view-social" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
+        <!-- Selector de Skins -->
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">🎯 Misiones y Logros</h2>
-
-            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
-                <div>
-                    <p class="text-xs font-bold text-emerald-400">💬 Únete al Canal Oficial</p>
-                    <p class="text-[10px] text-slate-400">Recompensa: +1,000 USDT</p>
-                </div>
-                <button id="mission-channel" class="bg-emerald-600 active:bg-emerald-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all">Visitar</button>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-purple-400">🎨 Skins de Criptomonedas</h2>
+            <div class="grid grid-cols-4 gap-2 text-center">
+                <button class="skin-option bg-slate-950 p-2 rounded-xl border border-emerald-500" data-icon="🪙">
+                    <span class="text-2xl block">🪙</span>
+                    <span class="text-[9px] text-emerald-400 font-bold">USDT</span>
+                </button>
+                <button class="skin-option bg-slate-950 p-2 rounded-xl border border-slate-800" data-icon="₿">
+                    <span class="text-2xl block">₿</span>
+                    <span class="text-[9px] text-amber-400 font-bold">BTC</span>
+                </button>
+                <button class="skin-option bg-slate-950 p-2 rounded-xl border border-slate-800" data-icon="⟠">
+                    <span class="text-2xl block">⟠</span>
+                    <span class="text-[9px] text-cyan-400 font-bold">ETH</span>
+                </button>
+                <button class="skin-option bg-slate-950 p-2 rounded-xl border border-slate-800" data-icon="◎">
+                    <span class="text-2xl block">◎</span>
+                    <span class="text-[9px] text-purple-400 font-bold">SOL</span>
+                </button>
             </div>
+        </div>
 
-            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
-                <div>
-                    <p class="text-xs font-bold text-cyan-400">👥 Invita a un Amigo</p>
-                    <p class="text-[10px] text-slate-400">Recompensa: +2,500 USDT</p>
-                </div>
-                <button id="mission-invite" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all">Compartir</button>
-            </div>
-
-            <!-- Logro Nivel 1 -->
-            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
-                <div>
-                    <p class="text-xs font-bold text-amber-400" id="ach1-title">Novato del Tap (50 Clics)</p>
-                    <p class="text-[10px] text-slate-400">Recompensa: +100 USDT</p>
-                </div>
-                <button id="claim-ach1" class="bg-amber-500 active:bg-amber-600 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Reclamar</button>
-            </div>
-
-            <!-- Logro Nivel 2 -->
-            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
-                <div>
-                    <p class="text-xs font-bold text-amber-400" id="ach2-title">Dedos de Fuego (500 Clics)</p>
-                    <p class="text-[10px] text-slate-400">Recompensa: +1,000 USDT</p>
-                </div>
-                <button id="claim-ach2" class="bg-amber-500 active:bg-amber-600 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Reclamar</button>
+        <!-- Clanes -->
+        <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400">👥 Clan Crypto Survivor</h2>
+            <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/50 space-y-2">
+                <p class="text-xs font-bold text-slate-200" id="clan-title">Gremio: Cripto Ballenas 🐋</p>
+                <p class="text-[10px] text-slate-400">Aporte Global del Clan: <span id="clan-score" class="text-emerald-400 font-mono">1,250,000</span> USDT</p>
+                <button id="join-clan-btn" class="w-full bg-emerald-600 active:bg-emerald-700 text-slate-950 font-bold text-xs py-2 rounded-lg transition-all">
+                    Aportar 10% de Mi Producción
+                </button>
             </div>
         </div>
     </div>
 
     <script>
-        // Sistema de Audio Web Sintético (Sin archivos externos)
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         function playSound(type) {
             if (!audioCtx) return;
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
+            if (audioCtx.state === 'suspended') { audioCtx.resume(); }
 
             const osc = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
@@ -270,7 +287,6 @@
             const now = audioCtx.currentTime;
 
             if (type === 'tap') {
-                // Sonido de clic agudo y corto (tipo láser digital)
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(400, now);
                 osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
@@ -279,7 +295,6 @@
                 osc.start(now);
                 osc.stop(now + 0.08);
             } else if (type === 'buy') {
-                // Sonido de compra (tono grave ascendente)
                 osc.type = 'triangle';
                 osc.frequency.setValueAtTime(200, now);
                 osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
@@ -288,7 +303,6 @@
                 osc.start(now);
                 osc.stop(now + 0.15);
             } else if (type === 'win') {
-                // Sonido de éxito / recompensa (melodía alegre)
                 osc.type = 'square';
                 osc.frequency.setValueAtTime(300, now);
                 osc.frequency.setValueAtTime(500, now + 0.1);
@@ -311,11 +325,11 @@
             quantumCost: 1200,
             totalClicks: 0,
             lastDaily: 0,
+            lastWheelFree: 0,
             lastOnlineTime: Date.now(),
-            ach1Claimed: false,
-            ach2Claimed: false,
-            channelClaimed: false,
-            inviteClaimed: false
+            coinSkin: '🪙',
+            clanScore: 1250000,
+            isBullMarket: true
         };
 
         const saved = localStorage.getItem('crypto_survivor_save');
@@ -327,7 +341,7 @@
                 if (state.cps > 0 && state.lastOnlineTime) {
                     const secondsAway = Math.floor((Date.now() - state.lastOnlineTime) / 1000);
                     if (secondsAway > 10) {
-                        const offlineEarnings = secondsAway * state.cps * state.multiplier;
+                        const offlineEarnings = secondsAway * state.cps * state.multiplier * (state.isBullMarket ? 2 : 1);
                         state.score += offlineEarnings;
                         setTimeout(() => {
                             playSound('win');
@@ -340,7 +354,8 @@
 
         const scoreEl = document.getElementById('score');
         const tapBtn = document.getElementById('tap-btn');
-        const coinContainer = document.getElementById('coin-container');
+        const coinIcon = document.getElementById('coin-icon');
+           const coinContainer = document.getElementById('coin-container');
         const clickPowerText = document.getElementById('click-power-text');
         const cpsText = document.getElementById('cps-text');
         const multiplierText = document.getElementById('multiplier-text');
@@ -348,6 +363,7 @@
         const userAvatarEl = document.getElementById('user-avatar');
         const userRankEl = document.getElementById('user-rank');
         const rankBarEl = document.getElementById('rank-bar');
+        const marketBadge = document.getElementById('market-badge');
 
         const clickCostEl = document.getElementById('click-cost');
         const minerCostEl = document.getElementById('miner-cost');
@@ -363,41 +379,44 @@
 
         const tabGame = document.getElementById('tab-game');
         const tabStore = document.getElementById('tab-store');
+        const tabWheel = document.getElementById('tab-wheel');
         const tabTrading = document.getElementById('tab-trading');
-        const tabMissions = document.getElementById('tab-missions');
+        const tabSocial = document.getElementById('tab-social');
 
         const viewGame = document.getElementById('view-game');
         const viewStore = document.getElementById('view-store');
+        const viewWheel = document.getElementById('view-wheel');
         const viewTrading = document.getElementById('view-trading');
-        const viewMissions = document.getElementById('view-missions');
+        const viewSocial = document.getElementById('view-social');
 
         const dailyBtn = document.getElementById('daily-btn');
         const dailyTimer = document.getElementById('daily-timer');
-        
-        const claimAch1 = document.getElementById('claim-ach1');
-        const ach1Title = document.getElementById('ach1-title');
-        const claimAch2 = document.getElementById('claim-ach2');
-        const ach2Title = document.getElementById('ach2-title');
+        const spinFreeBtn = document.getElementById('spin-free-btn');
+        const spinStarsBtn = document.getElementById('spin-stars-btn');
+        const wheelDisplay = document.getElementById('wheel-display');
+        const wheelStatus = document.getElementById('wheel-status');
 
         const tradeDisplay = document.getElementById('trade-display');
         const tradeUp = document.getElementById('trade-up');
         const tradeDown = document.getElementById('trade-down');
-        const missionChannel = document.getElementById('mission-channel');
-        const missionInvite = document.getElementById('mission-invite');
+
+        const clanScoreEl = document.getElementById('clan-score');
+        const joinClanBtn = document.getElementById('join-clan-btn');
 
         function switchTab(activeBtn, activeView) {
             playSound('tap');
-            [tabGame, tabStore, tabTrading, tabMissions].forEach(btn => btn.className = "bg-slate-900/80 text-slate-300 font-bold text-[11px] py-2 rounded-xl border border-slate-800 shadow-md transition-all");
-            [viewGame, viewStore, viewTrading, viewMissions].forEach(view => view.classList.add('hidden'));
+            [tabGame, tabStore, tabWheel, tabTrading, tabSocial].forEach(btn => btn.className = "bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all");
+            [viewGame, viewStore, viewWheel, viewTrading, viewSocial].forEach(view => view.classList.add('hidden'));
             
-            activeBtn.className = "bg-emerald-600 text-slate-950 font-bold text-[11px] py-2 rounded-xl shadow-md transition-all";
+            activeBtn.className = "bg-emerald-600 text-slate-950 font-bold text-[10px] py-2 rounded-xl shadow-md transition-all";
             activeView.classList.remove('hidden');
         }
 
         tabGame.addEventListener('click', () => switchTab(tabGame, viewGame));
         tabStore.addEventListener('click', () => switchTab(tabStore, viewStore));
+        tabWheel.addEventListener('click', () => switchTab(tabWheel, viewWheel));
         tabTrading.addEventListener('click', () => switchTab(tabTrading, viewTrading));
-        tabMissions.addEventListener('click', () => switchTab(tabMissions, viewMissions));
+        tabSocial.addEventListener('click', () => switchTab(tabSocial, viewSocial));
 
         if (window.Telegram && window.Telegram.WebApp) {
             const tg = window.Telegram.WebApp;
@@ -411,10 +430,23 @@
             }
         }
 
+        // Selección de Skins
+        document.querySelectorAll('.skin-option').forEach(btn => {
+            btn.addEventListener('click', () => {
+                playSound('tap');
+                state.coinSkin = btn.getAttribute('data-icon');
+                coinIcon.textContent = state.coinSkin;
+                document.querySelectorAll('.skin-option').forEach(b => b.className = "skin-option bg-slate-950 p-2 rounded-xl border border-slate-800");
+                btn.className = "skin-option bg-slate-950 p-2 rounded-xl border border-emerald-500";
+                saveGame();
+            });
+        });
+
         function handleMine(e) {
             e.preventDefault();
             playSound('tap');
-            const earned = state.clickPower * state.multiplier;
+            const marketMult = state.isBullMarket ? 2 : 1;
+            const earned = state.clickPower * state.multiplier * marketMult;
             state.score += earned;
             state.totalClicks += 1;
             createFloatingText(e, earned);
@@ -465,6 +497,68 @@
                 setTimeout(() => { sparkle.remove(); }, 600);
             }
         }
+
+        // Sistema de Ruleta
+        function executeSpin() {
+            playSound('buy');
+            spinFreeBtn.disabled = true;
+            spinStarsBtn.disabled = true;
+            wheelStatus.textContent = "¡Girando...";
+
+            let count = 0;
+            const icons = ["💰 1,000 USDT", "⚡ +1 Multiplicador", "🚀 Servidor Cuántico", "🪙 500 USDT"];
+            const interval = setInterval(() => {
+                wheelDisplay.textContent = icons[count % icons.length];
+                count++;
+                if (count > 15) {
+                    clearInterval(interval);
+                    playSound('win');
+                    const rand = Math.random();
+                    if (rand < 0.5) {
+                        state.score += 1000;
+                        wheelStatus.textContent = "🎉 ¡Ganaste 1,000 USDT!";
+                    } else if (rand < 0.8) {
+                        state.multiplier += 1;
+                        wheelStatus.textContent = "⚡ ¡Ganaste +1 Multiplicador!";
+                    } else {
+                        state.cps += 25;
+                        wheelStatus.textContent = "🚀 ¡Ganaste un Servidor Cuántico!";
+                    }
+                    updateUI();
+                    saveGame();
+                }
+            }, 100);
+        }
+
+        spinFreeBtn.addEventListener('click', () => {
+            const now = Date.now();
+            if (now - state.lastWheelFree > 24 * 60 * 60 * 1000) {
+                state.lastWheelFree = now;
+                executeSpin();
+            }
+        });
+
+        spinStarsBtn.addEventListener('click', () => {
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openInvoice) {
+                // Factura real de Stars
+            }
+            executeSpin();
+        });
+
+        // Clanes
+        joinClanBtn.addEventListener('click', () => {
+            if (state.score > 100) {
+                playSound('win');
+                const contribution = Math.floor(state.score * 0.1);
+                state.score -= contribution;
+                state.clanScore += contribution;
+                updateUI();
+                saveGame();
+                alert(`¡Has aportado ${contribution.toLocaleString()} USDT al Clan!`);
+            } else {
+                alert("Necesitas más USDT para aportar al clan.");
+            }
+        });
 
         buyStarsBtn.addEventListener('click', () => {
             playSound('win');
@@ -539,7 +633,7 @@
             if (state.score < 500) {
                 alert("Necesitas al menos 500 USDT para tradear.");
                 return;
-            }
+                 }
             playSound('buy');
             state.score -= 500;
             updateUI();
@@ -579,57 +673,16 @@
             }
         });
 
-        claimAch1.addEventListener('click', () => {
-            if (!state.ach1Claimed && state.totalClicks >= 50) {
-                playSound('win');
-                state.score += 100;
-                state.ach1Claimed = true;
-                updateUI();
-                saveGame();
-                alert("¡Logro 1 completado! +100 USDT añadidos.");
-            }
-        });
-
-        claimAch2.addEventListener('click', () => {
-            if (!state.ach2Claimed && state.totalClicks >= 500) {
-                playSound('win');
-                state.score += 1000;
-                state.ach2Claimed = true;
-                updateUI();
-                saveGame();
-                alert("¡Logro 2 completado! +1,000 USDT añadidos.");
-            }
-        });
-
-        missionChannel.addEventListener('click', () => {
-            if (!state.channelClaimed) {
-                playSound('win');
-                state.score += 1000;
-                state.channelClaimed = true;
-                missionChannel.disabled = true;
-                missionChannel.textContent = "Completado";
-                updateUI();
-                saveGame();
-                alert("¡+1,000 USDT reclamados por unirte al canal!");
-            }
-        });
-
-        missionInvite.addEventListener('click', () => {
-            if (!state.inviteClaimed) {
-                playSound('win');
-                state.score += 2500;
-                state.inviteClaimed = true;
-                missionInvite.disabled = true;
-                missionInvite.textContent = "Completado";
-                updateUI();
-                saveGame();
-                alert("¡+2,500 USDT reclamados por invitar amigos!");
-            }
-        });
+        // Alternar el Mercado cada 2 minutos
+        setInterval(() => {
+            state.isBullMarket = !state.isBullMarket;
+            updateUI();
+        }, 120000);
 
         setInterval(() => {
             if (state.cps > 0) {
-                state.score += state.cps * state.multiplier;
+                const marketMult = state.isBullMarket ? 2 : 1;
+                state.score += state.cps * state.multiplier * marketMult;
                 updateUI();
                 saveGame();
             }
@@ -637,9 +690,20 @@
 
         function updateUI() {
             scoreEl.textContent = Math.floor(state.score).toLocaleString();
-            clickPowerText.textContent = state.clickPower * state.multiplier;
-            cpsText.textContent = state.cps * state.multiplier;
+            coinIcon.textContent = state.coinSkin || '🪙';
+            const marketMult = state.isBullMarket ? 2 : 1;
+            clickPowerText.textContent = state.clickPower * state.multiplier * marketMult;
+            cpsText.textContent = state.cps * state.multiplier * marketMult;
             multiplierText.textContent = state.multiplier;
+            clanScoreEl.textContent = state.clanScore.toLocaleString();
+
+            if (state.isBullMarket) {
+                marketBadge.textContent = "🟢 Bull Market (x2)";
+                marketBadge.className = "bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/30 text-[10px] text-emerald-400 font-mono inline-block";
+            } else {
+                marketBadge.textContent = "🔴 Bear Market (x1)";
+                marketBadge.className = "bg-rose-950/80 px-2 py-0.5 rounded-full border border-rose-500/30 text-[10px] text-rose-400 font-mono inline-block";
+            }
 
             clickCostEl.textContent = state.clickCost.toLocaleString();
             minerCostEl.textContent = state.minerCost.toLocaleString();
@@ -652,29 +716,15 @@
             buyQuantumBtn.disabled = state.score < state.quantumCost;
             halvingBtn.disabled = state.score < 10000;
 
-            if (state.ach1Claimed) {
-                ach1Title.textContent = "Novato (Reclamado) ✅";
-                claimAch1.disabled = true;
-                claimAch1.textContent = "Reclamado";
-            } else if (state.totalClicks >= 50) {
-                claimAch1.disabled = false;
-            } else {
-                claimAch1.disabled = true;
-                claimAch1.textContent = `${state.totalClicks}/50`;
-            }
-
-            if (state.ach2Claimed) {
-                ach2Title.textContent = "Dedos de Fuego (Reclamado) ✅";
-                claimAch2.disabled = true;
-                claimAch2.textContent = "Reclamado";
-            } else if (state.totalClicks >= 500) {
-                claimAch2.disabled = false;
-            } else {
-                claimAch2.disabled = true;
-                claimAch2.textContent = `${state.totalClicks}/500`;
-            }
-
             const now = Date.now();
+            if (now - state.lastWheelFree < 24 * 60 * 60 * 1000) {
+                spinFreeBtn.disabled = true;
+                spinFreeBtn.textContent = "Vuelve Mañana";
+            } else {
+                spinFreeBtn.disabled = false;
+                spinFreeBtn.textContent = "🎡 Giro Gratis Diario";
+            }
+
             const diff = now - state.lastDaily;
             if (diff < 24 * 60 * 60 * 1000) {
                 dailyBtn.disabled = true;
