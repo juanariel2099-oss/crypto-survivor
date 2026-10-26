@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Crypto Survivor</title>
+    <!-- Tailwind CSS para diseño moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- SDK Oficial de Telegram Web Apps -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body class="bg-slate-900 text-white font-sans select-none min-h-screen flex flex-col justify-between p-4">
+
+    <!-- Header con info del usuario y mercado -->
+    <div class="flex justify-between items-center bg-slate-800 p-3 rounded-xl border border-slate-700">
+        <div class="flex items-center space-x-2">
+            <span class="text-2xl">👤</span>
+            <div>
+                <p id="user-name" class="font-bold text-sm text-emerald-400">Inversor Novato</p>
+                <p class="text-xs text-slate-400">Estatus: HODLER</p>
+            </div>
+        </div>
+        <div id="market-status" class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-500/30">
+            🟢 BULL RUN (+0%)
+        </div>
+    </div>
+
+    <!-- Contador de Dinero -->
+    <div class="text-center my-6">
+        <p class="text-slate-400 text-sm uppercase tracking-wider mb-1">Capital Total</p>
+        <h1 class="text-4xl font-extrabold text-emerald-400">$<span id="balance">0</span></h1>
+        <p class="text-xs text-slate-400 mt-1">+<span id="income-per-sec">0</span>/seg pasivo</p>
+    </div>
+
+    <!-- Botón Principal (El Tap) -->
+    <div class="flex justify-center items-center my-auto">
+        <button id="tap-btn" class="w-48 h-48 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-400 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-emerald-500/30 border-4 border-slate-800 flex flex-col items-center justify-center cursor-pointer">
+            <span class="text-6xl mb-1">🚀</span>
+            <span class="font-bold text-lg text-slate-900">¡HODL!</span>
+        </button>
+    </div>
+
+    <!-- Panel de Mejoras -->
+    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+        <h2 class="text-sm font-bold text-slate-300 mb-3 uppercase tracking-wide">Inversiones Pasivas</h2>
+        <div class="space-y-2">
+            <button id="buy-bot-btn" class="w-full bg-slate-700 hover:bg-slate-600 disabled:opacity-50 p-3 rounded-lg flex justify-between items-center text-left transition">
+                <div>
+                    <p class="font-bold text-sm">🤖 Bot de Arbitraje</p>
+                    <p class="text-xs text-slate-400">+1 $/seg</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-xs text-emerald-400 font-bold">$<span id="bot-cost">15</span></span>
+                    <p class="text-[10px] text-slate-400">Nivel <span id="bot-level">0</span></p>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Inicializar SDK de Telegram
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Ocupar toda la pantalla
+
+        // Intentar obtener datos del usuario desde Telegram
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            document.getElementById('user-name').innerText = tg.initDataUnsafe.user.first_name;
+        }
+
+        // Variables del Estado del Juego
+        let balance = 0;
+        let perClick = 1;
+        let perSecond = 0;
+        let botLevel = 0;
+        let botCost = 15;
+        let multiplier = 1;
+
+        // Elementos DOM
+        const balanceEl = document.getElementById('balance');
+        const incomeEl = document.getElementById('income-per-sec');
+        const tapBtn = document.getElementById('tap-btn');
+        const buyBotBtn = document.getElementById('buy-bot-btn');
+        const botCostEl = document.getElementById('bot-cost');
+        const botLevelEl = document.getElementById('bot-level');
+        const marketStatusEl = document.getElementById('market-status');
+
+        // Mecánica de Tap
+        tapBtn.addEventListener('click', (e) => {
+            balance += (perClick * multiplier);
+            updateUI();
+            
+            // Vibración háptica de Telegram
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
+        });
+
+        // Comprar Bot de Arbitraje
+        buyBotBtn.addEventListener('click', () => {
+            if (balance >= botCost) {
+                balance -= botCost;
+                botLevel++;
+                perSecond += 1;
+                botCost = Math.floor(botCost * 1.5);
+                
+                botCostEl.innerText = botCost;
+                botLevelEl.innerText = botLevel;
+                incomeEl.innerText = perSecond * multiplier;
+                updateUI();
+                
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('success');
+                }
+            }
+        });
+
+        // Bucle de Ingresos Pasivos (Cada segundo)
+        setInterval(() => {
+            balance += (perSecond * multiplier);
+            updateUI();
+        }, 1000);
+
+        // Evento Aleatorio del Mercado (Cada 15 segundos)
+        setInterval(() => {
+            const isCrash = Math.random() < 0.4; // 40% probabilidad de Crash
+            if (isCrash) {
+                multiplier = 0.5;
+                marketStatusEl.className = "bg-rose-500/20 text-rose-400 text-xs font-bold px-2.5 py-1 rounded-full border border-rose-500/30";
+                marketStatusEl.innerText = "🔴 CRASH (-50%)";
+            } else {
+                multiplier = 2;
+                marketStatusEl.className = "bg-emerald-500/20 text-emerald-400 text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-500/30";
+                marketStatusEl.innerText = "🚀 BULL RUN (x2)";
+            }
+            incomeEl.innerText = perSecond * multiplier;
+        }, 15000);
+
+        // Actualizar la pantalla
+        function updateUI() {
+            balanceEl.innerText = Math.floor(balance);
+            buyBotBtn.disabled = balance < botCost;
+        }
+    </script>
+</body>
+  </html>
+  
