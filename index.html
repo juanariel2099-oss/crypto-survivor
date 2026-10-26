@@ -14,6 +14,8 @@
         .crypto-coin {
             animation: pulse-glow 3s infinite;
             transition: transform 0.08s ease;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
         .crypto-coin:active {
             transform: scale(0.9) rotate(-3deg);
@@ -29,7 +31,7 @@
             color: #34d399;
             text-shadow: 0 0 8px rgba(52, 211, 153, 0.8);
             animation: float-up 0.8s ease-out forwards;
-            z-index: 50;
+            z-index: 100;
         }
         @keyframes particle-pop {
             0% { transform: translate(0, 0) scale(1); opacity: 1; }
@@ -42,6 +44,7 @@
             background-color: #f59e0b;
             border-radius: 50%;
             pointer-events: none;
+            z-index: 100;
             animation: particle-pop 0.6s ease-out forwards;
         }
         body {
@@ -92,7 +95,7 @@
     </nav>
 
     <!-- VISTA 1: JUEGO -->
-    <div id="view-game" class="w-full max-w-md mx-auto flex flex-col items-center justify-center relative z-10">
+    <div id="view-game" class="w-full max-w-md mx-auto flex flex-col items-center justify-center relative z-20">
         <div class="text-center mb-4 balance-panel w-full p-4 rounded-2xl shadow-lg">
             <p class="text-xs uppercase tracking-widest text-slate-400 mb-1 font-semibold">Balance Total</p>
             <div class="flex items-center justify-center space-x-2">
@@ -103,9 +106,9 @@
         </div>
 
         <div id="coin-container" class="relative flex items-center justify-center my-6 w-full">
-            <button id="tap-btn" class="crypto-coin w-40 h-40 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-700 flex flex-col items-center justify-center shadow-2xl border-4 border-emerald-300/40 relative active:brightness-110 cursor-pointer mx-auto">
+            <button id="tap-btn" class="crypto-coin w-40 h-40 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-700 flex flex-col items-center justify-center shadow-2xl border-4 border-emerald-300/40 relative active:brightness-110 mx-auto">
                 <span class="text-6xl filter drop-shadow-md">🪙</span>
-                <span class="text-[10px] font-bold text-slate-950 uppercase tracking-wider mt-1 bg-white/20 px-2 py-0.5 rounded-full">¡MINAR!</span>
+                <span class="text-[10px] font-bold text-slate-950 uppercase tracking-wider mt-1 bg-white/20 px-2 py-0.5 rounded-full pointer-events-none">¡MINAR!</span>
             </button>
         </div>
 
@@ -122,13 +125,10 @@
     </div>
 
     <!-- VISTA 2: TIENDA Y MISIONES -->
-    <div id="view-store" class="w-full max-w-md mx-auto space-y-3 relative z-10 hidden">
-        
-        <!-- Sección Mejoras -->
+    <div id="view-store" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
             <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">🛒 Tienda de Mejoras</h2>
 
-            <!-- Mejora 1: Clics -->
             <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
                 <div>
                     <p class="text-xs font-bold text-emerald-400">⚡ Fuerza de Clic (+1)</p>
@@ -137,7 +137,6 @@
                 <button id="buy-click-btn" class="bg-emerald-600 active:bg-emerald-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Comprar</button>
             </div>
 
-            <!-- Mejora 2: Rig -->
             <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
                 <div>
                     <p class="text-xs font-bold text-cyan-400">💻 Rig Minería (+1/seg)</p>
@@ -146,7 +145,6 @@
                 <button id="buy-miner-btn" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Comprar</button>
             </div>
 
-            <!-- Mejora 3: Granja -->
             <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
                 <div>
                     <p class="text-xs font-bold text-purple-400">🏭 Granja Crypto (+5/seg)</p>
@@ -155,7 +153,6 @@
                 <button id="buy-farm-btn" class="bg-purple-600 active:bg-purple-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Comprar</button>
             </div>
 
-            <!-- Mejora 4: Servidor Cuántico -->
             <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
                 <div>
                     <p class="text-xs font-bold text-rose-400">🚀 Servidor Cuántico (+25/seg)</p>
@@ -165,7 +162,6 @@
             </div>
         </div>
 
-        <!-- Sección Logros / Misiones -->
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
             <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">🏆 Misiones y Logros</h2>
             <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
@@ -227,7 +223,6 @@
         const achievementTitle = document.getElementById('achievement-title');
         const claimAchievementBtn = document.getElementById('claim-achievement-btn');
 
-        // Pestañas
         tabGame.addEventListener('click', () => {
             viewGame.classList.remove('hidden');
             viewStore.classList.add('hidden');
@@ -254,8 +249,9 @@
             }
         }
 
-        // Evento de toque principal corregido
-        tapBtn.addEventListener('click', (e) => {
+        // Función de clic directa optimizada con soporte táctil total
+        function handleMine(e) {
+            e.preventDefault();
             state.score += state.clickPower;
             state.totalClicks += 1;
             createFloatingText(e);
@@ -265,15 +261,22 @@
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
                 window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
             }
-        });
+        }
+
+        tapBtn.addEventListener('click', handleMine);
+        tapBtn.addEventListener('touchstart', handleMine, { passive: false });
 
         function createFloatingText(e) {
             const rect = tapBtn.getBoundingClientRect();
+            const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : rect.left + rect.width / 2);
+            const clientY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : rect.top + rect.height / 2);
+
             const text = document.createElement('div');
             text.className = 'floating-text font-mono text-xl';
             text.textContent = `+${state.clickPower}`;
-            const x = (e.clientX || rect.left + rect.width / 2) - rect.left - 10;
-            const y = (e.clientY || rect.top + rect.height / 2) - rect.top - 20;
+            
+            const x = clientX - rect.left - 10;
+            const y = clientY - rect.top - 20;
             text.style.left = `${x}px`;
             text.style.top = `${y}px`;
             coinContainer.appendChild(text);
@@ -282,8 +285,8 @@
 
         function createSparkles(e) {
             const rect = tapBtn.getBoundingClientRect();
-            const centerX = (e.clientX || rect.left + rect.width / 2) - rect.left;
-            const centerY = (e.clientY || rect.top + rect.height / 2) - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
             for (let i = 0; i < 6; i++) {
                 const sparkle = document.createElement('div');
                 sparkle.className = 'sparkle';
@@ -407,4 +410,22 @@
             }
 
             if (state.score < 500) {
-                userRankEl.textC
+                userRankEl.textContent = "Novato 🐣";
+                rankBarEl.style.width = `${(state.score / 500) * 100}%`;
+            } else if (state.score < 5000) {
+                userRankEl.textContent = "Trader 📈";
+                rankBarEl.style.width = `${((state.score - 500) / 4500) * 100}%`;
+            } else {
+                userRankEl.textContent = "Ballena 🐋";
+                rankBarEl.style.width = `100%`;
+            }
+        }
+
+        function saveGame() {
+            localStorage.setItem('crypto_survivor_save', JSON.stringify(state));
+        }
+
+        updateUI();
+    </script>
+</body>
+</html>
