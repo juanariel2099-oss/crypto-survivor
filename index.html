@@ -598,7 +598,7 @@
                 connectWalletBtn.className = "bg-emerald-600 active:bg-emerald-700 text-slate-950 text-[10px] font-bold px-2.5 py-1 rounded-lg shadow transition-all";
                 alert("🔗 ¡Wallet TON conectada con éxito a través de TonConnect!");
                 saveGame();
-                            } else {
+            } else {
                 alert(`Wallet conectada: ${state.walletAddress}`);
             }
         });
@@ -903,7 +903,7 @@
                 const won = (prediction === outcome);
                 if (won) {
                     playSound('win');
-                                        state.score += 1000;
+                    state.score += 1000;
                     tradeDisplay.textContent = "🎉 ¡GANASTE +1,000 USDT!";
                 } else {
                     tradeDisplay.textContent = "❌ PERDISTE 500 USDT";
