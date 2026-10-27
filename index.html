@@ -307,7 +307,7 @@
     <div id="view-trading" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
         <div class="glass-panel p-5 rounded-2xl shadow-xl space-y-4 text-center">
             <h2 class="text-xs font-bold uppercase tracking-wider text-cyan-400">📈 Trading Bot (Sube o Baja)</h2>
-                <p class="text-xs text-slate-300">Apunta 500 USDT. Si el gráfico sube en 5 segundos, ¡ganas el doble!</p>
+            <p class="text-xs text-slate-300">Apunta 500 USDT. Si el gráfico sube en 5 segundos, ¡ganas el doble!</p>
             
             <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-xl text-emerald-400" id="trade-display">
                 STATUS: ESPERANDO...
@@ -614,7 +614,6 @@
             });
         });
 
-        // Evento de Racha Diaria corregido
         streakBtn.addEventListener('click', () => {
             const now = Date.now();
             if (now - state.lastStreakTime > 24 * 60 * 60 * 1000) {
@@ -632,7 +631,6 @@
             }
         });
 
-        // Botones de la Tienda corregidos
         buyStarsBtn.addEventListener('click', () => {
             playSound('win');
             state.score += 15000;
@@ -973,6 +971,12 @@
             rankScoreEl.textContent = Math.floor(state.score).toLocaleString() + " USDT";
             streakDayEl.textContent = state.streakDay;
 
+            // Actualización de los costos en la tienda para que suban dinámicamente
+            clickCostEl.textContent = state.clickCost.toLocaleString();
+            minerCostEl.textContent = state.minerCost.toLocaleString();
+            farmCostEl.textContent = state.farmCost.toLocaleString();
+            quantumCostEl.textContent = state.quantumCost.toLocaleString();
+
             if (state.walletConnected && state.walletAddress) {
                 connectWalletBtn.textContent = state.walletAddress.substring(0, 8) + "...";
             }
@@ -988,11 +992,6 @@
                 marketBadge.textContent = "🔴 Bear (x1)";
                 marketBadge.className = "bg-rose-950/80 px-2 py-0.5 rounded-full border border-rose-500/30 text-[9px] text-rose-400 font-mono inline-block";
             }
-
-            clickCostEl.textContent = state.clickCost.toLocaleString();
-            minerCostEl.textContent = state.minerCost.toLocaleString();
-            farmCostEl.textContent = state.farmCost.toLocaleString();
-            quantumCostEl.textContent = state.quantumCost.toLocaleString();
 
             buyClickBtn.disabled = state.score < state.clickCost;
             buyMinerBtn.disabled = state.score < state.minerCost;
@@ -1039,4 +1038,4 @@
         updateUI();
     </script>
 </body>
-</html>
+</html> 
