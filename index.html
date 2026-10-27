@@ -79,10 +79,12 @@
                     <p class="text-xs text-slate-400">Rango: <span id="user-rank" class="text-amber-400 font-semibold">Novato</span></p>
                 </div>
             </div>
-            <div class="text-right">
-                <p class="text-[10px] text-amber-400 font-mono">⭐ Mult: <span id="multiplier-text">1</span>x</p>
-                <div id="market-badge" class="bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/30 text-[10px] text-emerald-400 font-mono inline-block">
-                    🟢 Bull Market (x2)
+            <div class="text-right flex flex-col items-end space-y-1">
+                <button id="connect-wallet-btn" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-[10px] font-bold px-2.5 py-1 rounded-lg shadow transition-all">
+                    🔗 Conectar Wallet
+                </button>
+                <div id="market-badge" class="bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/30 text-[9px] text-emerald-400 font-mono inline-block">
+                    🟢 Bull (x2)
                 </div>
             </div>
         </div>
@@ -91,14 +93,18 @@
         </div>
     </header>
 
-    <!-- Pestañas de Navegación (6 tabs optimizadas) -->
-    <nav class="w-full max-w-md mx-auto grid grid-cols-6 gap-1 my-3 relative z-10">
-        <button id="tab-game" class="bg-emerald-600 text-slate-950 font-bold text-[9px] py-2 rounded-xl shadow-md transition-all">🎮 Minar</button>
-        <button id="tab-store" class="bg-slate-900/80 text-slate-300 font-bold text-[9px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🛒 Tienda</button>
-        <button id="tab-ads" class="bg-slate-900/80 text-slate-300 font-bold text-[9px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">📺 Ads</button>
-        <button id="tab-wheel" class="bg-slate-900/80 text-slate-300 font-bold text-[9px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🎡 Ruleta</button>
-        <button id="tab-trading" class="bg-slate-900/80 text-slate-300 font-bold text-[9px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">📈 Trade</button>
-        <button id="tab-social" class="bg-slate-900/80 text-slate-300 font-bold text-[9px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">👥 Clan/Ref</button>
+    <!-- Pestañas de Navegación (8 opciones completas) -->
+    <nav class="w-full max-w-md mx-auto grid grid-cols-4 gap-1 my-2 relative z-10">
+        <button id="tab-game" class="bg-emerald-600 text-slate-950 font-bold text-[10px] py-2 rounded-xl shadow-md transition-all">🎮 Minar</button>
+        <button id="tab-store" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🛒 Tienda</button>
+        <button id="tab-ads" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">📺 Ads</button>
+        <button id="tab-wheel" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🎡 Ruleta</button>
+    </nav>
+    <nav class="w-full max-w-md mx-auto grid grid-cols-4 gap-1 mb-3 relative z-10">
+        <button id="tab-lottery" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🎰 Lotería</button>
+        <button id="tab-leaderboard" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🏆 Ranking</button>
+        <button id="tab-trading" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">📈 Trade</button>
+        <button id="tab-social" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">👥 Clan/Ins</button>
     </nav>
 
     <!-- ALERTA DE ATAQUE HACKER (MINIJUEGO DEFENSIVO) -->
@@ -201,9 +207,8 @@
         </div>
     </div>
 
-    <!-- VISTA 3: ANUNCIOS Y PATROCINIOS (ADS & CROSS-PROMOTION) -->
+    <!-- VISTA 3: ANUNCIOS Y PATROCINIOS -->
     <div id="view-ads" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
-        <!-- Anuncios Recompensados -->
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3 border-emerald-500/40 bg-slate-900/90">
             <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400">📺 Anuncios Recompensados (Adsgram)</h2>
             <p class="text-[11px] text-slate-300">Visualiza un anuncio patrocinado corto provisto por la red de publicidad de Telegram para obtener ingresos directos.</p>
@@ -219,7 +224,6 @@
             </div>
         </div>
 
-        <!-- Promoción Cruzada de Mini Apps (Cross-Promotion) -->
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3 border-cyan-500/40">
             <h2 class="text-xs font-bold uppercase tracking-wider text-cyan-400">🚀 Mini Apps Aliadas (Patrocinadores)</h2>
             <p class="text-[11px] text-slate-300">Visita las aplicaciones de nuestros socios desarrolladores para recibir bonificaciones especiales.</p>
@@ -258,7 +262,49 @@
         </div>
     </div>
 
-    <!-- VISTA 5: TRADING -->
+    <!-- VISTA 5: LOTERÍA HORARIA (JACKPOT) -->
+    <div id="view-lottery" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
+        <div class="glass-panel p-5 rounded-2xl shadow-xl space-y-4 text-center">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">🎰 Lotería Horaria (Jackpot)</h2>
+            <p class="text-xs text-slate-300">Compra un boleto por 1,000 USDT. ¡Cada hora se sortea el pozo acumulado!</p>
+
+            <div class="bg-slate-950 p-4 rounded-xl border border-amber-500/30 font-mono space-y-1">
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest">Pozo Acumulado Actual</p>
+                <p class="text-3xl font-extrabold text-amber-400" id="jackpot-pool">50,000 USDT</p>
+            </div>
+
+            <button id="buy-ticket-btn" class="w-full bg-amber-500 active:bg-amber-600 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all">
+                🎟️ Comprar Boleto (1,000 USDT)
+            </button>
+        </div>
+    </div>
+
+    <!-- VISTA 6: LEADERBOARD GLOBAL -->
+    <div id="view-leaderboard" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
+        <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400">🏆 Ranking Global (Top Ballenas)</h2>
+            <div class="space-y-2 font-mono text-xs" id="leaderboard-list">
+                <div class="flex justify-between bg-slate-950/70 p-2.5 rounded-xl border border-amber-500/40 text-amber-300 font-bold">
+                    <span>🥇 1. Satoshi_N</span>
+                    <span>14,500,000 USDT</span>
+                </div>
+                <div class="flex justify-between bg-slate-950/70 p-2.5 rounded-xl border border-slate-800 text-slate-300">
+                    <span>🥈 2. Vitalik_Fan</span>
+                    <span>9,200,000 USDT</span>
+                </div>
+                <div class="flex justify-between bg-slate-950/70 p-2.5 rounded-xl border border-slate-800 text-slate-300">
+                    <span>🥉 3. CryptoWhale</span>
+                    <span>5,800,000 USDT</span>
+                </div>
+                <div class="flex justify-between bg-slate-950/70 p-2.5 rounded-xl border border-emerald-500/50 text-emerald-400 font-bold" id="user-rank-row">
+                    <span>👑 10. Tú (Ballena Élite)</span>
+                    <span id="rank-score">0 USDT</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VISTA 7: TRADING -->
     <div id="view-trading" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
         <div class="glass-panel p-5 rounded-2xl shadow-xl space-y-4 text-center">
             <h2 class="text-xs font-bold uppercase tracking-wider text-cyan-400">📈 Trading Bot (Sube o Baja)</h2>
@@ -279,8 +325,27 @@
         </div>
     </div>
 
-    <!-- VISTA 6: CLAN, REFERIDOS & SKINS -->
+    <!-- VISTA 8: CLAN, INSIGNIAS, REFERIDOS & SKINS -->
     <div id="view-social" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
+        <!-- Insignias y Logros Visuales -->
+        <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">🎖️ Insignias y Trofeos</h2>
+            <div class="grid grid-cols-3 gap-2 text-center text-[10px]">
+                <div id="badge-1" class="bg-slate-950 p-2 rounded-xl border border-slate-800 opacity-40">
+                    <span class="text-2xl block">🐣</span>
+                    <span class="font-bold text-slate-300">Primer Tap</span>
+                </div>
+                <div id="badge-2" class="bg-slate-950 p-2 rounded-xl border border-slate-800 opacity-40">
+                    <span class="text-2xl block">⚡</span>
+                    <span class="font-bold text-slate-300">Primer Halving</span>
+                </div>
+                <div id="badge-3" class="bg-slate-950 p-2 rounded-xl border border-slate-800 opacity-40">
+                    <span class="text-2xl block">🐋</span>
+                    <span class="font-bold text-slate-300">Ballena 1M</span>
+                </div>
+            </div>
+        </div>
+
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
             <h2 class="text-xs font-bold uppercase tracking-wider text-purple-400">🎨 Skins de Criptomonedas</h2>
             <div class="grid grid-cols-4 gap-2 text-center">
@@ -377,13 +442,17 @@
             farmCost: 250,
             quantumCost: 1200,
             totalClicks: 0,
+            halvingsCount: 0,
             streakDay: 1,
             lastStreakTime: 0,
             lastWheelFree: 0,
+            jackpotPool: 50000,
             lastOnlineTime: Date.now(),
             coinSkin: '🪙',
             clanScore: 1250000,
             isBullMarket: true,
+            walletConnected: false,
+            walletAddress: null,
             lastAdTime: 0,
             lastPartnerTime: 0
         };
@@ -421,6 +490,7 @@
         const userRankEl = document.getElementById('user-rank');
         const rankBarEl = document.getElementById('rank-bar');
         const marketBadge = document.getElementById('market-badge');
+        const connectWalletBtn = document.getElementById('connect-wallet-btn');
 
         const clickCostEl = document.getElementById('click-cost');
         const minerCostEl = document.getElementById('miner-cost');
@@ -436,11 +506,16 @@
 
         const watchAdBtn = document.getElementById('watch-ad-btn');
         const visitPartnerBtn = document.getElementById('visit-partner-btn');
+        const buyTicketBtn = document.getElementById('buy-ticket-btn');
+        const jackpotPoolEl = document.getElementById('jackpot-pool');
+        const rankScoreEl = document.getElementById('rank-score');
 
         const tabGame = document.getElementById('tab-game');
         const tabStore = document.getElementById('tab-store');
         const tabAds = document.getElementById('tab-ads');
         const tabWheel = document.getElementById('tab-wheel');
+        const tabLottery = document.getElementById('tab-lottery');
+        const tabLeaderboard = document.getElementById('tab-leaderboard');
         const tabTrading = document.getElementById('tab-trading');
         const tabSocial = document.getElementById('tab-social');
 
@@ -448,8 +523,14 @@
         const viewStore = document.getElementById('view-store');
         const viewAds = document.getElementById('view-ads');
         const viewWheel = document.getElementById('view-wheel');
+        const viewLottery = document.getElementById('view-lottery');
+        const viewLeaderboard = document.getElementById('view-leaderboard');
         const viewTrading = document.getElementById('view-trading');
         const viewSocial = document.getElementById('view-social');
+
+        const streakBtn = document.getElementById('streak-btn');
+        const streakDayEl = document.getElementById('streak-day');
+        const streakTimer = document.getElementById('streak-timer');
 
         const spinFreeBtn = document.getElementById('spin-free-btn');
         const spinStarsBtn = document.getElementById('spin-stars-btn');
@@ -464,6 +545,10 @@
         const joinClanBtn = document.getElementById('join-clan-btn');
         const copyRefBtn = document.getElementById('copy-ref-btn');
 
+        const badge1 = document.getElementById('badge-1');
+        const badge2 = document.getElementById('badge-2');
+        const badge3 = document.getElementById('badge-3');
+
         const ddosAlert = document.getElementById('ddos-alert');
         const defendBtn = document.getElementById('defend-btn');
         const defendClicks = document.getElementById('defend-clicks');
@@ -471,10 +556,10 @@
 
         function switchTab(activeBtn, activeView) {
             playSound('tap');
-            [tabGame, tabStore, tabAds, tabWheel, tabTrading, tabSocial].forEach(btn => btn.className = "bg-slate-900/80 text-slate-300 font-bold text-[9px] py-2 rounded-xl border border-slate-800 shadow-md transition-all");
-            [viewGame, viewStore, viewAds, viewWheel, viewTrading, viewSocial].forEach(view => view.classList.add('hidden'));
+            [tabGame, tabStore, tabAds, tabWheel, tabLottery, tabLeaderboard, tabTrading, tabSocial].forEach(btn => btn.className = "bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all");
+            [viewGame, viewStore, viewAds, viewWheel, viewLottery, viewLeaderboard, viewTrading, viewSocial].forEach(view => view.classList.add('hidden'));
             
-            activeBtn.className = "bg-emerald-600 text-slate-950 font-bold text-[9px] py-2 rounded-xl shadow-md transition-all";
+            activeBtn.className = "bg-emerald-600 text-slate-950 font-bold text-[10px] py-2 rounded-xl shadow-md transition-all";
             activeView.classList.remove('hidden');
         }
 
@@ -482,6 +567,8 @@
         tabStore.addEventListener('click', () => switchTab(tabStore, viewStore));
         tabAds.addEventListener('click', () => switchTab(tabAds, viewAds));
         tabWheel.addEventListener('click', () => switchTab(tabWheel, viewWheel));
+        tabLottery.addEventListener('click', () => switchTab(tabLottery, viewLottery));
+        tabLeaderboard.addEventListener('click', () => switchTab(tabLeaderboard, viewLeaderboard));
         tabTrading.addEventListener('click', () => switchTab(tabTrading, viewTrading));
         tabSocial.addEventListener('click', () => switchTab(tabSocial, viewSocial));
 
@@ -499,6 +586,23 @@
             }
         }
 
+        // Simulación de conexión TonConnect SDK (Billetera TON Real)
+        connectWalletBtn.addEventListener('click', () => {
+            playSound('buy');
+            if (!state.walletConnected) {
+                // Simulación de ventana emergente de TonConnect
+                const simulatedAddress = "EQD..." + Math.random().toString(36.substring(2, 8)).toUpperCase();
+                state.walletConnected = true;
+                state.walletAddress = simulatedAddress;
+                connectWalletBtn.textContent = simulatedAddress.substring(0, 8) + "...";
+                connectWalletBtn.className = "bg-emerald-600 active:bg-emerald-700 text-slate-950 text-[10px] font-bold px-2.5 py-1 rounded-lg shadow transition-all";
+                alert("🔗 ¡Wallet TON conectada con éxito a través de TonConnect!");
+                saveGame();
+                            } else {
+                alert(`Wallet conectada: ${state.walletAddress}`);
+            }
+        });
+
         // Skins
         document.querySelectorAll('.skin-option').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -511,42 +615,40 @@
             });
         });
 
-        // Simulación de Anuncio Patrocinado (Adsgram / TON Ads)
-        watchAdBtn.addEventListener('click', () => {
-            const now = Date.now();
-            if (now - state.lastAdTime < 60000) { // Cooldown de 1 min por demo
-                alert("⏳ Debes esperar un momento para ver otro anuncio.");
-                return;
+        // Lotería Horaria
+        buyTicketBtn.addEventListener('click', () => {
+            if (state.score >= 1000) {
+                playSound('buy');
+                state.score -= 1000;
+                state.jackpotPool += 800;
+                jackpotPoolEl.textContent = state.jackpotPool.toLocaleString() + " USDT";
+                updateUI();
+                saveGame();
+                alert("🎟️ ¡Boleto comprado! Participas en el próximo sorteo del pozo acumulado.");
+            } else {
+                alert("Necesitas al menos 1,000 USDT para comprar un boleto.");
             }
+        });
+
+        watchAdBtn.addEventListener('click', () => {
             playSound('buy');
             watchAdBtn.disabled = true;
-            watchAdBtn.textContent = "Reproduciendo...";
-            
             setTimeout(() => {
                 playSound('win');
                 state.score += 5000;
-                state.lastAdTime = Date.now();
                 watchAdBtn.disabled = false;
-                watchAdBtn.textContent = "Ver Anuncio";
                 updateUI();
                 saveGame();
-                alert("📺 ¡Anuncio completado! +5,000 USDT añadidos a tu balance.");
-            }, 3000); // Simula 3 segundos de anuncio
+                alert("📺 ¡Anuncio completado! +5,000 USDT añadidos.");
+            }, 3000);
         });
 
-        // Visitar Mini App Aliada (Cross-Promotion)
         visitPartnerBtn.addEventListener('click', () => {
-            const now = Date.now();
-            if (now - state.lastPartnerTime < 300000) { // Cooldown de 5 min
-                alert("⏳ Ya visitaste a este socio recientemente.");
-                return;
-            }
             playSound('win');
             state.score += 10000;
-            state.lastPartnerTime = Date.now();
             updateUI();
             saveGame();
-            alert("🚀 ¡Has visitado la Mini App aliada! +10,000 USDT reclamados.");
+            alert("🚀 ¡Mini App aliada visitada! +10,000 USDT reclamados.");
         });
 
         copyRefBtn.addEventListener('click', () => {
@@ -554,7 +656,7 @@
             navigator.clipboard.writeText(refLink).then(() => {
                 alert("¡Enlace de referido copiado al portapapeles!");
             });
-             });
+        });
 
         let ddosActive = false;
         let ddosClicksLeft = 15;
@@ -580,7 +682,7 @@
                     ddosAlert.classList.add('hidden');
                     const penalty = Math.floor(state.score * 0.1);
                     state.score = Math.max(0, state.score - penalty);
-                    alert(`❌ ¡El ataque DDoS tuvo éxito! Perdiste ${penalty.toLocaleString()} USDT.`);
+                    alert(`❌ ¡Ataque DDoS exitoso! Perdiste ${penalty.toLocaleString()} USDT.`);
                     updateUI();
                 }
             }, 1000);
@@ -595,9 +697,8 @@
                 ddosActive = false;
                 ddosAlert.classList.add('hidden');
                 playSound('win');
-                const reward = 5000;
-                state.score += reward;
-                alert(`🛡️ ¡Ataque repelido! Ganaste +${reward.toLocaleString()} USDT.`);
+                state.score += 5000;
+                alert("🛡️ ¡Ataque repelido! +5,000 USDT ganados.");
                 updateUI();
             }
         });
@@ -709,9 +810,9 @@
                 state.clanScore += contribution;
                 updateUI();
                 saveGame();
-                alert(`¡Has aportado ${contribution.toLocaleString()} USDT al Clan!`);
+                alert(`¡Aportaste ${contribution.toLocaleString()} USDT al clan!`);
             } else {
-                alert("Necesitas más USDT para aportar al clan.");
+                alert("Necesitas más USDT para aportar.");
             }
         });
 
@@ -720,7 +821,7 @@
             state.score += 15000;
             updateUI();
             saveGame();
-            alert("⭐ [Modo Prueba]: +15,000 USDT añadidos con éxito.");
+            alert("⭐ [Modo Prueba]: +15,000 USDT añadidos.");
         });
 
         buyClickBtn.addEventListener('click', () => {
@@ -774,13 +875,14 @@
                 state.clickPower = 1;
                 state.cps = 0;
                 state.multiplier += 1;
+                state.halvingsCount += 1;
                 state.clickCost = 10;
                 state.minerCost = 50;
                 state.farmCost = 250;
                 state.quantumCost = 1200;
                 updateUI();
                 saveGame();
-                alert("⚡ ¡Halving completado! Multiplicador permanente aumentado a " + state.multiplier + "x");
+                alert("⚡ ¡Halving completado! Multiplicador permanente: " + state.multiplier + "x");
             }
         });
 
@@ -801,7 +903,7 @@
                 const won = (prediction === outcome);
                 if (won) {
                     playSound('win');
-                    state.score += 1000;
+                                        state.score += 1000;
                     tradeDisplay.textContent = "🎉 ¡GANASTE +1,000 USDT!";
                 } else {
                     tradeDisplay.textContent = "❌ PERDISTE 500 USDT";
@@ -838,13 +940,24 @@
             cpsText.textContent = state.cps * state.multiplier * marketMult;
             multiplierText.textContent = state.multiplier;
             clanScoreEl.textContent = state.clanScore.toLocaleString();
+            jackpotPoolEl.textContent = state.jackpotPool.toLocaleString() + " USDT";
+            rankScoreEl.textContent = Math.floor(state.score).toLocaleString() + " USDT";
+
+            if (state.walletConnected && state.walletAddress) {
+                connectWalletBtn.textContent = state.walletAddress.substring(0, 8) + "...";
+            }
+
+            // Insignias dinámicas
+            if (state.totalClicks > 0) { badge1.classList.remove('opacity-40'); badge1.classList.add('border-emerald-500'); }
+            if (state.halvingsCount > 0) { badge2.classList.remove('opacity-40'); badge2.classList.add('border-amber-500'); }
+            if (state.score >= 1000000 || state.totalClicks >= 1000) { badge3.classList.remove('opacity-40'); badge3.classList.add('border-cyan-500'); }
 
             if (state.isBullMarket) {
-                marketBadge.textContent = "🟢 Bull Market (x2)";
-                marketBadge.className = "bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/30 text-[10px] text-emerald-400 font-mono inline-block";
+                marketBadge.textContent = "🟢 Bull (x2)";
+                marketBadge.className = "bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/30 text-[9px] text-emerald-400 font-mono inline-block";
             } else {
-                marketBadge.textContent = "🔴 Bear Market (x1)";
-                marketBadge.className = "bg-rose-950/80 px-2 py-0.5 rounded-full border border-rose-500/30 text-[10px] text-rose-400 font-mono inline-block";
+                marketBadge.textContent = "🔴 Bear (x1)";
+                marketBadge.className = "bg-rose-950/80 px-2 py-0.5 rounded-full border border-rose-500/30 text-[9px] text-rose-400 font-mono inline-block";
             }
 
             clickCostEl.textContent = state.clickCost.toLocaleString();
