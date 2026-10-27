@@ -80,7 +80,7 @@
                 </div>
             </div>
             <div class="text-right flex flex-col items-end space-y-1">
-                <button id="connect-wallet-btn" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-[10px] font-bold px-2.5 py-1 rounded-lg shadow transition-all">
+                <button id="connect-wallet-btn" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-[10px] font-bold px-2.5 py-1 rounded-lg shadow transition-all cursor-pointer">
                     🔗 Conectar Wallet
                 </button>
                 <div id="market-badge" class="bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/30 text-[9px] text-emerald-400 font-mono inline-block">
@@ -93,18 +93,18 @@
         </div>
     </header>
 
-    <!-- Pestañas de Navegación (8 opciones completas) -->
+    <!-- Pestañas de Navegación -->
     <nav class="w-full max-w-md mx-auto grid grid-cols-4 gap-1 my-2 relative z-10">
-        <button id="tab-game" class="bg-emerald-600 text-slate-950 font-bold text-[10px] py-2 rounded-xl shadow-md transition-all">🎮 Minar</button>
-        <button id="tab-store" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🛒 Tienda</button>
-        <button id="tab-ads" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">📺 Ads</button>
-        <button id="tab-wheel" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🎡 Ruleta</button>
+        <button id="tab-game" class="bg-emerald-600 text-slate-950 font-bold text-[10px] py-2 rounded-xl shadow-md transition-all cursor-pointer">🎮 Minar</button>
+        <button id="tab-store" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all cursor-pointer">🛒 Tienda</button>
+        <button id="tab-ads" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all cursor-pointer">📺 Ads</button>
+        <button id="tab-wheel" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all cursor-pointer">🎡 Ruleta</button>
     </nav>
     <nav class="w-full max-w-md mx-auto grid grid-cols-4 gap-1 mb-3 relative z-10">
-        <button id="tab-lottery" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🎰 Lotería</button>
-        <button id="tab-leaderboard" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🏆 Ranking</button>
-        <button id="tab-trading" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">📈 Trade</button>
-        <button id="tab-social" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">👥 Clan/Ins</button>
+        <button id="tab-lottery" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all cursor-pointer">🎰 Lotería</button>
+        <button id="tab-leaderboard" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all cursor-pointer">🏆 Ranking</button>
+        <button id="tab-trading" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all cursor-pointer">📈 Trade</button>
+        <button id="tab-social" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all cursor-pointer">👥 Clan/Ins</button>
     </nav>
 
     <!-- ALERTA DE ATAQUE HACKER (MINIJUEGO DEFENSIVO) -->
@@ -112,7 +112,7 @@
         <h2 class="text-xs font-bold uppercase tracking-wider text-rose-400 animate-pulse">🚨 ¡ATAQUE HACKER / DDoS DETECTADO! 🚨</h2>
         <p class="text-[11px] text-slate-200">¡Haz clic rápido en el botón de abajo para repeler el ataque antes de perder USDT!</p>
         <div class="text-xs font-mono font-bold text-amber-300" id="ddos-timer">Tiempo restante: 10s</div>
-        <button id="defend-btn" class="w-full bg-rose-600 active:bg-rose-700 text-slate-950 font-extrabold text-xs py-2.5 rounded-xl shadow-md transition-all">
+        <button id="defend-btn" class="w-full bg-rose-600 active:bg-rose-700 text-slate-950 font-extrabold text-xs py-2.5 rounded-xl shadow-md transition-all cursor-pointer">
             🛡️ ¡REPELIR ATAQUE! (<span id="defend-clicks">15</span>)
         </button>
     </div>
@@ -129,17 +129,16 @@
         </div>
 
         <div id="coin-container" class="relative flex items-center justify-center my-6 w-full">
-            <button id="tap-btn" class="crypto-coin w-40 h-40 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-700 flex flex-col items-center justify-center shadow-2xl border-4 border-emerald-300/40 relative active:brightness-110 mx-auto">
+            <button id="tap-btn" class="crypto-coin w-40 h-40 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-700 flex flex-col items-center justify-center shadow-2xl border-4 border-emerald-300/40 relative active:brightness-110 mx-auto cursor-pointer">
                 <span id="coin-icon" class="text-6xl filter drop-shadow-md">🪙</span>
                 <span class="text-[10px] font-bold text-slate-950 uppercase tracking-wider mt-1 bg-white/20 px-2 py-0.5 rounded-full pointer-events-none">¡MINAR!</span>
             </button>
         </div>
 
-        <!-- Bono de Racha de 7 Días -->
         <div class="w-full glass-panel p-3 rounded-2xl space-y-2 shadow-lg mt-2">
             <div class="flex justify-between items-center">
                 <p class="text-xs font-bold text-amber-400">🔥 Racha Diaria (Día <span id="streak-day">1</span>/7)</p>
-                <button id="streak-btn" class="bg-amber-500 active:bg-amber-600 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-xl shadow-md transition-all">Reclamar</button>
+                <button id="streak-btn" class="bg-amber-500 active:bg-amber-600 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-xl shadow-md transition-all cursor-pointer">Reclamar</button>
             </div>
             <p class="text-[10px] text-slate-400" id="streak-timer">¡Reclama tu recompensa de hoy!</p>
         </div>
@@ -155,7 +154,7 @@
                     <p class="text-xs font-bold text-emerald-400">💰 Pack de 15,000 USDT</p>
                     <p class="text-[10px] text-yellow-400 font-mono">Costo: 50 ⭐ Stars</p>
                 </div>
-                <button id="buy-stars-btn" class="bg-yellow-500 active:bg-yellow-600 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg shadow-md transition-all">
+                <button id="buy-stars-btn" class="bg-yellow-500 active:bg-yellow-600 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg shadow-md transition-all cursor-pointer">
                     Comprar
                 </button>
             </div>
@@ -169,7 +168,7 @@
                     <p class="text-xs font-bold text-emerald-400">⚡ Fuerza de Clic (+1)</p>
                     <p class="text-[10px] text-slate-400">Costo: <span id="click-cost" class="text-amber-400 font-semibold">10</span> USDT</p>
                 </div>
-                <button id="buy-click-btn" class="bg-emerald-600 active:bg-emerald-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Comprar</button>
+                <button id="buy-click-btn" class="bg-emerald-600 active:bg-emerald-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40 cursor-pointer">Comprar</button>
             </div>
 
             <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
@@ -177,7 +176,7 @@
                     <p class="text-xs font-bold text-cyan-400">💻 Rig Minería (+1/seg)</p>
                     <p class="text-[10px] text-slate-400">Costo: <span id="miner-cost" class="text-amber-400 font-semibold">50</span> USDT</p>
                 </div>
-                <button id="buy-miner-btn" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Comprar</button>
+                <button id="buy-miner-btn" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40 cursor-pointer">Comprar</button>
             </div>
 
             <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
@@ -185,7 +184,7 @@
                     <p class="text-xs font-bold text-purple-400">🏭 Granja Crypto (+5/seg)</p>
                     <p class="text-[10px] text-slate-400">Costo: <span id="farm-cost" class="text-amber-400 font-semibold">250</span> USDT</p>
                 </div>
-                <button id="buy-farm-btn" class="bg-purple-600 active:bg-purple-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Comprar</button>
+                <button id="buy-farm-btn" class="bg-purple-600 active:bg-purple-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40 cursor-pointer">Comprar</button>
             </div>
 
             <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
@@ -193,7 +192,7 @@
                     <p class="text-xs font-bold text-rose-400">🚀 Servidor Cuántico (+25/seg)</p>
                     <p class="text-[10px] text-slate-400">Costo: <span id="quantum-cost" class="text-amber-400 font-semibold">1,200</span> USDT</p>
                 </div>
-                <button id="buy-quantum-btn" class="bg-rose-600 active:bg-rose-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Comprar</button>
+                <button id="buy-quantum-btn" class="bg-rose-600 active:bg-rose-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40 cursor-pointer">Comprar</button>
             </div>
         </div>
 
@@ -201,7 +200,7 @@
             <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">⚡ Halving de Bitcoin (Prestigio)</h2>
             <p class="text-[11px] text-slate-300">Reinicia tu balance y mineros a cambio de <strong>+1x de multiplicador permanente</strong> a toda tu producción.</p>
             <p class="text-[10px] text-slate-400">Requisito: 10,000 USDT</p>
-            <button id="halving-btn" class="w-full bg-amber-500 active:bg-amber-600 text-slate-950 font-bold text-xs py-2.5 rounded-xl shadow-md transition-all disabled:opacity-40 mt-1">
+            <button id="halving-btn" class="w-full bg-amber-500 active:bg-amber-600 text-slate-950 font-bold text-xs py-2.5 rounded-xl shadow-md transition-all disabled:opacity-40 mt-1 cursor-pointer">
                 Ejecutar Halving 🌟
             </button>
         </div>
@@ -218,7 +217,7 @@
                     <p class="text-xs font-bold text-emerald-400">🎬 Ver Anuncio Patrocinado</p>
                     <p class="text-[10px] text-slate-400">Recompensa: <span class="text-amber-400 font-mono">+5,000 USDT</span></p>
                 </div>
-                <button id="watch-ad-btn" class="bg-emerald-600 active:bg-emerald-700 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg transition-all shadow-md">
+                <button id="watch-ad-btn" class="bg-emerald-600 active:bg-emerald-700 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg transition-all shadow-md cursor-pointer">
                     Ver Anuncio
                 </button>
             </div>
@@ -233,7 +232,7 @@
                     <p class="text-xs font-bold text-cyan-400">🪐 Cyberpunk Battle Bot</p>
                     <p class="text-[10px] text-slate-400">Recompensa: <span class="text-amber-400 font-mono">+10,000 USDT</span></p>
                 </div>
-                <button id="visit-partner-btn" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg transition-all shadow-md">
+                <button id="visit-partner-btn" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg transition-all shadow-md cursor-pointer">
                     Visitar App
                 </button>
             </div>
@@ -252,10 +251,10 @@
             </div>
 
             <div class="grid grid-cols-1 gap-2">
-                <button id="spin-free-btn" class="bg-amber-500 active:bg-amber-600 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all">
+                <button id="spin-free-btn" class="bg-amber-500 active:bg-amber-600 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all cursor-pointer">
                     🎡 Giro Gratis Diario
                 </button>
-                <button id="spin-stars-btn" class="bg-yellow-500 active:bg-yellow-600 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all border border-yellow-300">
+                <button id="spin-stars-btn" class="bg-yellow-500 active:bg-yellow-600 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all border border-yellow-300 cursor-pointer">
                     ⭐ Giro Extra (10 Telegram Stars)
                 </button>
             </div>
@@ -273,7 +272,7 @@
                 <p class="text-3xl font-extrabold text-amber-400" id="jackpot-pool">50,000 USDT</p>
             </div>
 
-            <button id="buy-ticket-btn" class="w-full bg-amber-500 active:bg-amber-600 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all">
+            <button id="buy-ticket-btn" class="w-full bg-amber-500 active:bg-amber-600 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all cursor-pointer">
                 🎟️ Comprar Boleto (1,000 USDT)
             </button>
         </div>
@@ -315,10 +314,10 @@
             </div>
 
             <div class="grid grid-cols-2 gap-3">
-                <button id="trade-up" class="bg-emerald-600 active:bg-emerald-700 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all">
+                <button id="trade-up" class="bg-emerald-600 active:bg-emerald-700 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all cursor-pointer">
                     🚀 Subirá (CALL)
                 </button>
-                <button id="trade-down" class="bg-rose-600 active:bg-rose-700 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all">
+                <button id="trade-down" class="bg-rose-600 active:bg-rose-700 text-slate-950 font-bold text-xs py-3 rounded-xl shadow-md transition-all cursor-pointer">
                     📉 Bajará (PUT)
                 </button>
             </div>
@@ -327,7 +326,6 @@
 
     <!-- VISTA 8: CLAN, INSIGNIAS, REFERIDOS & SKINS -->
     <div id="view-social" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
-        <!-- Insignias y Logros Visuales -->
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
             <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">🎖️ Insignias y Trofeos</h2>
             <div class="grid grid-cols-3 gap-2 text-center text-[10px]">
@@ -349,19 +347,19 @@
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
             <h2 class="text-xs font-bold uppercase tracking-wider text-purple-400">🎨 Skins de Criptomonedas</h2>
             <div class="grid grid-cols-4 gap-2 text-center">
-                <button class="skin-option bg-slate-950 p-2 rounded-xl border border-emerald-500" data-icon="🪙">
+                <button class="skin-option bg-slate-950 p-2 rounded-xl border border-emerald-500 cursor-pointer" data-icon="🪙">
                     <span class="text-2xl block">🪙</span>
                     <span class="text-[9px] text-emerald-400 font-bold">USDT</span>
                 </button>
-                <button class="skin-option bg-slate-950 p-2 rounded-xl border border-slate-800" data-icon="₿">
+                <button class="skin-option bg-slate-950 p-2 rounded-xl border border-slate-800 cursor-pointer" data-icon="₿">
                     <span class="text-2xl block">₿</span>
                     <span class="text-[9px] text-amber-400 font-bold">BTC</span>
                 </button>
-                <button class="skin-option bg-slate-950 p-2 rounded-xl border border-slate-800" data-icon="⟠">
+                <button class="skin-option bg-slate-950 p-2 rounded-xl border border-slate-800 cursor-pointer" data-icon="⟠">
                     <span class="text-2xl block">⟠</span>
                     <span class="text-[9px] text-cyan-400 font-bold">ETH</span>
                 </button>
-                <button class="skin-option bg-slate-950 p-2 rounded-xl border border-slate-800" data-icon="◎">
+                <button class="skin-option bg-slate-950 p-2 rounded-xl border border-slate-800 cursor-pointer" data-icon="◎">
                     <span class="text-2xl block">◎</span>
                     <span class="text-[9px] text-purple-400 font-bold">SOL</span>
                 </button>
@@ -372,7 +370,7 @@
             <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">🎁 Sistema de Referidos</h2>
             <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/50 space-y-2">
                 <p class="text-xs text-slate-300">Invita amigos y gana <strong class="text-emerald-400">+5,000 USDT</strong> por cada uno.</p>
-                <button id="copy-ref-btn" class="w-full bg-amber-500 active:bg-amber-600 text-slate-950 font-bold text-xs py-2 rounded-lg transition-all">
+                <button id="copy-ref-btn" class="w-full bg-amber-500 active:bg-amber-600 text-slate-950 font-bold text-xs py-2 rounded-lg transition-all cursor-pointer">
                     📋 Copiar Enlace de Invitación
                 </button>
             </div>
@@ -383,7 +381,7 @@
             <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/50 space-y-2">
                 <p class="text-xs font-bold text-slate-200">Gremio: Cripto Ballenas 🐋</p>
                 <p class="text-[10px] text-slate-400">Aporte Global: <span id="clan-score" class="text-emerald-400 font-mono">1,250,000</span> USDT</p>
-                <button id="join-clan-btn" class="w-full bg-emerald-600 active:bg-emerald-700 text-slate-950 font-bold text-xs py-2 rounded-lg transition-all">
+                <button id="join-clan-btn" class="w-full bg-emerald-600 active:bg-emerald-700 text-slate-950 font-bold text-xs py-2 rounded-lg transition-all cursor-pointer">
                     Aportar 10% de Mi Producción
                 </button>
             </div>
@@ -556,10 +554,14 @@
 
         function switchTab(activeBtn, activeView) {
             playSound('tap');
-            [tabGame, tabStore, tabAds, tabWheel, tabLottery, tabLeaderboard, tabTrading, tabSocial].forEach(btn => btn.className = "bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all");
-            [viewGame, viewStore, viewAds, viewWheel, viewLottery, viewLeaderboard, viewTrading, viewSocial].forEach(view => view.classList.add('hidden'));
+            [tabGame, tabStore, tabAds, tabWheel, tabLottery, tabLeaderboard, tabTrading, tabSocial].forEach(btn => {
+                btn.className = "bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all cursor-pointer";
+            });
+            [viewGame, viewStore, viewAds, viewWheel, viewLottery, viewLeaderboard, viewTrading, viewSocial].forEach(view => {
+                view.classList.add('hidden');
+            });
             
-            activeBtn.className = "bg-emerald-600 text-slate-950 font-bold text-[10px] py-2 rounded-xl shadow-md transition-all";
+            activeBtn.className = "bg-emerald-600 text-slate-950 font-bold text-[10px] py-2 rounded-xl shadow-md transition-all cursor-pointer";
             activeView.classList.remove('hidden');
         }
 
@@ -586,36 +588,32 @@
             }
         }
 
-        // Simulación de conexión TonConnect SDK (Billetera TON Real)
         connectWalletBtn.addEventListener('click', () => {
             playSound('buy');
             if (!state.walletConnected) {
-                // Simulación de ventana emergente de TonConnect
-                const simulatedAddress = "EQD..." + Math.random().toString(36.substring(2, 8)).toUpperCase();
+                const simulatedAddress = "EQD..." + Math.random().toString(36).substring(2, 8).toUpperCase();
                 state.walletConnected = true;
                 state.walletAddress = simulatedAddress;
                 connectWalletBtn.textContent = simulatedAddress.substring(0, 8) + "...";
-                connectWalletBtn.className = "bg-emerald-600 active:bg-emerald-700 text-slate-950 text-[10px] font-bold px-2.5 py-1 rounded-lg shadow transition-all";
-                alert("🔗 ¡Wallet TON conectada con éxito a través de TonConnect!");
+                connectWalletBtn.className = "bg-emerald-600 active:bg-emerald-700 text-slate-950 text-[10px] font-bold px-2.5 py-1 rounded-lg shadow transition-all cursor-pointer";
+                alert("🔗 ¡Wallet TON conectada con éxito!");
                 saveGame();
             } else {
                 alert(`Wallet conectada: ${state.walletAddress}`);
             }
         });
 
-        // Skins
         document.querySelectorAll('.skin-option').forEach(btn => {
             btn.addEventListener('click', () => {
                 playSound('tap');
                 state.coinSkin = btn.getAttribute('data-icon');
                 coinIcon.textContent = state.coinSkin;
-                document.querySelectorAll('.skin-option').forEach(b => b.className = "skin-option bg-slate-950 p-2 rounded-xl border border-slate-800");
-                btn.className = "skin-option bg-slate-950 p-2 rounded-xl border border-emerald-500";
+                document.querySelectorAll('.skin-option').forEach(b => b.className = "skin-option bg-slate-950 p-2 rounded-xl border border-slate-800 cursor-pointer");
+                btn.className = "skin-option bg-slate-950 p-2 rounded-xl border border-emerald-500 cursor-pointer";
                 saveGame();
             });
         });
 
-        // Lotería Horaria
         buyTicketBtn.addEventListener('click', () => {
             if (state.score >= 1000) {
                 playSound('buy');
@@ -624,7 +622,7 @@
                 jackpotPoolEl.textContent = state.jackpotPool.toLocaleString() + " USDT";
                 updateUI();
                 saveGame();
-                alert("🎟️ ¡Boleto comprado! Participas en el próximo sorteo del pozo acumulado.");
+                alert("🎟️ ¡Boleto comprado con éxito!");
             } else {
                 alert("Necesitas al menos 1,000 USDT para comprar un boleto.");
             }
@@ -947,7 +945,6 @@
                 connectWalletBtn.textContent = state.walletAddress.substring(0, 8) + "...";
             }
 
-            // Insignias dinámicas
             if (state.totalClicks > 0) { badge1.classList.remove('opacity-40'); badge1.classList.add('border-emerald-500'); }
             if (state.halvingsCount > 0) { badge2.classList.remove('opacity-40'); badge2.classList.add('border-amber-500'); }
             if (state.score >= 1000000 || state.totalClicks >= 1000) { badge3.classList.remove('opacity-40'); badge3.classList.add('border-cyan-500'); }
