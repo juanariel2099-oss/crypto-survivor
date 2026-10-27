@@ -92,13 +92,24 @@
     </header>
 
     <!-- Pestañas de Navegación -->
-    <nav class="w-full max-w-md mx-auto grid grid-cols-5 gap-1 my-3 relative z-10">
-        <button id="tab-game" class="bg-emerald-600 text-slate-950 font-bold text-[10px] py-2 rounded-xl shadow-md transition-all">🎮 Minar</button>
-        <button id="tab-store" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🛒 Tienda</button>
-        <button id="tab-wheel" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🎡 Ruleta</button>
-        <button id="tab-trading" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">📈 Trade</button>
-        <button id="tab-social" class="bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">👥 Clan/Skins</button>
+    <nav class="w-full max-w-md mx-auto grid grid-cols-6 gap-1 my-3 relative z-10">
+        <button id="tab-game" class="bg-emerald-600 text-slate-950 font-bold text-[9px] py-2 rounded-xl shadow-md transition-all">🎮 Minar</button>
+        <button id="tab-store" class="bg-slate-900/80 text-slate-300 font-bold text-[9px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🛒 Tienda</button>
+        <button id="tab-cards" class="bg-slate-900/80 text-slate-300 font-bold text-[9px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🃏 Combos</button>
+        <button id="tab-wheel" class="bg-slate-900/80 text-slate-300 font-bold text-[9px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">🎡 Ruleta</button>
+        <button id="tab-trading" class="bg-slate-900/80 text-slate-300 font-bold text-[9px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">📈 Trade</button>
+        <button id="tab-social" class="bg-slate-900/80 text-slate-300 font-bold text-[9px] py-2 rounded-xl border border-slate-800 shadow-md transition-all">👥 Clan/Ref</button>
     </nav>
+
+    <!-- ALERTA DE ATAQUE HACKER (MINIJUEGO DEFENSIVO) -->
+    <div id="ddos-alert" class="w-full max-w-md mx-auto glass-panel p-4 rounded-2xl border-rose-500/80 mb-3 shadow-2xl relative z-30 hidden bg-rose-950/90 text-center space-y-2">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-rose-400 animate-pulse">🚨 ¡ATAQUE HACKER / DDoS DETECTADO! 🚨</h2>
+        <p class="text-[11px] text-slate-200">¡Haz clic rápido en el botón de abajo para repeler el ataque antes de perder USDT!</p>
+        <div class="text-xs font-mono font-bold text-amber-300" id="ddos-timer">Tiempo restante: 10s</div>
+        <button id="defend-btn" class="w-full bg-rose-600 active:bg-rose-700 text-slate-950 font-extrabold text-xs py-2.5 rounded-xl shadow-md transition-all">
+            🛡️ ¡REPELIR ATAQUE! (<span id="defend-clicks">15</span>)
+        </button>
+    </div>
 
     <!-- VISTA 1: JUEGO -->
     <div id="view-game" class="w-full max-w-md mx-auto flex flex-col items-center justify-center relative z-20">
@@ -118,14 +129,13 @@
             </button>
         </div>
 
-        <div class="w-full glass-panel p-3 rounded-2xl flex items-center justify-between shadow-lg mt-2">
-            <div>
-                <p class="text-xs font-bold text-amber-400">🎁 Bono Diario</p>
-                <p class="text-[10px] text-slate-400" id="daily-timer">¡Reclama 500 USDT gratis!</p>
+        <!-- Bono de Racha de 7 Días -->
+        <div class="w-full glass-panel p-3 rounded-2xl space-y-2 shadow-lg mt-2">
+            <div class="flex justify-between items-center">
+                <p class="text-xs font-bold text-amber-400">🔥 Racha Diaria (Día <span id="streak-day">1</span>/7)</p>
+                <button id="streak-btn" class="bg-amber-500 active:bg-amber-600 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-xl shadow-md transition-all">Reclamar</button>
             </div>
-            <button id="daily-btn" class="bg-amber-500 active:bg-amber-600 text-slate-950 text-xs font-bold px-4 py-2 rounded-xl shadow-md transition-all">
-                Reclamar
-            </button>
+            <p class="text-[10px] text-slate-400" id="streak-timer">¡Reclama tu recompensa de hoy!</p>
         </div>
     </div>
 
@@ -191,7 +201,38 @@
         </div>
     </div>
 
-    <!-- VISTA 3: RULETA DIARIA Y EXTRA POR STARS -->
+    <!-- VISTA 3: TARJETAS DE MEJORA / COMBOS -->
+    <div id="view-cards" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
+        <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-cyan-400">🃏 Tarjetas de Estrategia y Combos</h2>
+            
+            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
+                <div>
+                    <p class="text-xs font-bold text-emerald-400">📢 Campaña Marketing</p>
+                    <p class="text-[10px] text-slate-400">+5 CPS | Costo: <span id="card1-cost" class="text-amber-400">500</span> USDT</p>
+                </div>
+                <button id="buy-card1" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Adquirir</button>
+            </div>
+
+            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
+                <div>
+                    <p class="text-xs font-bold text-cyan-400">🛡️ Ciberseguridad Avanzada</p>
+                    <p class="text-[10px] text-slate-400">+15 CPS | Costo: <span id="card2-cost" class="text-amber-400">2,000</span> USDT</p>
+                </div>
+                <button id="buy-card2" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Adquirir</button>
+            </div>
+
+            <div class="flex items-center justify-between bg-slate-950/70 p-3 rounded-xl border border-slate-800/50">
+                <div>
+                    <p class="text-xs font-bold text-cyan-400">🏛️ Listado en Exchange Tier-1</p>
+                    <p class="text-[10px] text-slate-400">+50 CPS | Costo: <span id="card3-cost" class="text-amber-400">10,000</span> USDT</p>
+                </div>
+                <button id="buy-card3" class="bg-cyan-600 active:bg-cyan-700 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition-all disabled:opacity-40">Adquirir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VISTA 4: RULETA -->
     <div id="view-wheel" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
         <div class="glass-panel p-5 rounded-2xl shadow-xl space-y-4 text-center">
             <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">🎡 Ruleta de la Fortuna Crypto</h2>
@@ -213,7 +254,7 @@
         </div>
     </div>
 
-    <!-- VISTA 4: TRADING -->
+    <!-- VISTA 5: TRADING -->
     <div id="view-trading" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
         <div class="glass-panel p-5 rounded-2xl shadow-xl space-y-4 text-center">
             <h2 class="text-xs font-bold uppercase tracking-wider text-cyan-400">📈 Trading Bot (Sube o Baja)</h2>
@@ -234,7 +275,7 @@
         </div>
     </div>
 
-    <!-- VISTA 5: CLAN & SKINS -->
+    <!-- VISTA 6: CLAN, REFERIDOS & SKINS -->
     <div id="view-social" class="w-full max-w-md mx-auto space-y-3 relative z-20 hidden">
         <!-- Selector de Skins -->
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
@@ -259,12 +300,23 @@
             </div>
         </div>
 
+        <!-- Sistema de Referidos -->
+        <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">🎁 Sistema de Referidos</h2>
+            <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/50 space-y-2">
+                <p class="text-xs text-slate-300">Invita amigos y gana <strong class="text-emerald-400">+5,000 USDT</strong> por cada uno.</p>
+                <button id="copy-ref-btn" class="w-full bg-amber-500 active:bg-amber-600 text-slate-950 font-bold text-xs py-2 rounded-lg transition-all">
+                    📋 Copiar Enlace de Invitación
+                </button>
+            </div>
+        </div>
+
         <!-- Clanes -->
         <div class="glass-panel p-4 rounded-2xl shadow-xl space-y-3">
             <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400">👥 Clan Crypto Survivor</h2>
             <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/50 space-y-2">
-                <p class="text-xs font-bold text-slate-200" id="clan-title">Gremio: Cripto Ballenas 🐋</p>
-                <p class="text-[10px] text-slate-400">Aporte Global del Clan: <span id="clan-score" class="text-emerald-400 font-mono">1,250,000</span> USDT</p>
+                <p class="text-xs font-bold text-slate-200">Gremio: Cripto Ballenas 🐋</p>
+                <p class="text-[10px] text-slate-400">Aporte Global: <span id="clan-score" class="text-emerald-400 font-mono">1,250,000</span> USDT</p>
                 <button id="join-clan-btn" class="w-full bg-emerald-600 active:bg-emerald-700 text-slate-950 font-bold text-xs py-2 rounded-lg transition-all">
                     Aportar 10% de Mi Producción
                 </button>
@@ -324,12 +376,16 @@
             farmCost: 250,
             quantumCost: 1200,
             totalClicks: 0,
-            lastDaily: 0,
+            streakDay: 1,
+            lastStreakTime: 0,
             lastWheelFree: 0,
             lastOnlineTime: Date.now(),
             coinSkin: '🪙',
             clanScore: 1250000,
-            isBullMarket: true
+            isBullMarket: true,
+            card1Bought: false,
+            card2Bought: false,
+            card3Bought: false
         };
 
         const saved = localStorage.getItem('crypto_survivor_save');
@@ -341,7 +397,8 @@
                 if (state.cps > 0 && state.lastOnlineTime) {
                     const secondsAway = Math.floor((Date.now() - state.lastOnlineTime) / 1000);
                     if (secondsAway > 10) {
-                        const offlineEarnings = secondsAway * state.cps * state.multiplier * (state.isBullMarket ? 2 : 1);
+                        const marketMult = state.isBullMarket ? 2 : 1;
+                        const offlineEarnings = secondsAway * state.cps * state.multiplier * marketMult;
                         state.score += offlineEarnings;
                         setTimeout(() => {
                             playSound('win');
@@ -355,7 +412,7 @@
         const scoreEl = document.getElementById('score');
         const tapBtn = document.getElementById('tap-btn');
         const coinIcon = document.getElementById('coin-icon');
-           const coinContainer = document.getElementById('coin-container');
+        const coinContainer = document.getElementById('coin-container');
         const clickPowerText = document.getElementById('click-power-text');
         const cpsText = document.getElementById('cps-text');
         const multiplierText = document.getElementById('multiplier-text');
@@ -377,20 +434,28 @@
         const buyStarsBtn = document.getElementById('buy-stars-btn');
         const halvingBtn = document.getElementById('halving-btn');
 
+        const buyCard1 = document.getElementById('buy-card1');
+        const buyCard2 = document.getElementById('buy-card2');
+        const buyCard3 = document.getElementById('buy-card3');
+
         const tabGame = document.getElementById('tab-game');
         const tabStore = document.getElementById('tab-store');
+        const tabCards = document.getElementById('tab-cards');
         const tabWheel = document.getElementById('tab-wheel');
         const tabTrading = document.getElementById('tab-trading');
         const tabSocial = document.getElementById('tab-social');
 
         const viewGame = document.getElementById('view-game');
         const viewStore = document.getElementById('view-store');
+        const viewCards = document.getElementById('view-cards');
         const viewWheel = document.getElementById('view-wheel');
         const viewTrading = document.getElementById('view-trading');
         const viewSocial = document.getElementById('view-social');
 
-        const dailyBtn = document.getElementById('daily-btn');
-        const dailyTimer = document.getElementById('daily-timer');
+        const streakBtn = document.getElementById('streak-btn');
+        const streakDayEl = document.getElementById('streak-day');
+        const streakTimer = document.getElementById('streak-timer');
+
         const spinFreeBtn = document.getElementById('spin-free-btn');
         const spinStarsBtn = document.getElementById('spin-stars-btn');
         const wheelDisplay = document.getElementById('wheel-display');
@@ -402,27 +467,36 @@
 
         const clanScoreEl = document.getElementById('clan-score');
         const joinClanBtn = document.getElementById('join-clan-btn');
+        const copyRefBtn = document.getElementById('copy-ref-btn');
+
+        const ddosAlert = document.getElementById('ddos-alert');
+        const defendBtn = document.getElementById('defend-btn');
+        const defendClicks = document.getElementById('defend-clicks');
+        const ddosTimer = document.getElementById('ddos-timer');
 
         function switchTab(activeBtn, activeView) {
             playSound('tap');
-            [tabGame, tabStore, tabWheel, tabTrading, tabSocial].forEach(btn => btn.className = "bg-slate-900/80 text-slate-300 font-bold text-[10px] py-2 rounded-xl border border-slate-800 shadow-md transition-all");
-            [viewGame, viewStore, viewWheel, viewTrading, viewSocial].forEach(view => view.classList.add('hidden'));
+            [tabGame, tabStore, tabCards, tabWheel, tabTrading, tabSocial].forEach(btn => btn.className = "bg-slate-900/80 text-slate-300 font-bold text-[9px] py-2 rounded-xl border border-slate-800 shadow-md transition-all");
+            [viewGame, viewStore, viewCards, viewWheel, viewTrading, viewSocial].forEach(view => view.classList.add('hidden'));
             
-            activeBtn.className = "bg-emerald-600 text-slate-950 font-bold text-[10px] py-2 rounded-xl shadow-md transition-all";
+            activeBtn.className = "bg-emerald-600 text-slate-950 font-bold text-[9px] py-2 rounded-xl shadow-md transition-all";
             activeView.classList.remove('hidden');
         }
 
         tabGame.addEventListener('click', () => switchTab(tabGame, viewGame));
         tabStore.addEventListener('click', () => switchTab(tabStore, viewStore));
+        tabCards.addEventListener('click', () => switchTab(tabCards, viewCards));
         tabWheel.addEventListener('click', () => switchTab(tabWheel, viewWheel));
         tabTrading.addEventListener('click', () => switchTab(tabTrading, viewTrading));
         tabSocial.addEventListener('click', () => switchTab(tabSocial, viewSocial));
 
+        let telegramUserId = "123456";
         if (window.Telegram && window.Telegram.WebApp) {
             const tg = window.Telegram.WebApp;
             tg.expand();
             if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
                 const user = tg.initDataUnsafe.user;
+                telegramUserId = user.id;
                 userNameEl.textContent = user.first_name || "Crypto Survivor";
                 if (user.first_name) {
                     userAvatarEl.textContent = user.first_name.charAt(0).toUpperCase();
@@ -430,7 +504,7 @@
             }
         }
 
-        // Selección de Skins
+        // Skins
         document.querySelectorAll('.skin-option').forEach(btn => {
             btn.addEventListener('click', () => {
                 playSound('tap');
@@ -441,6 +515,63 @@
                 saveGame();
             });
         });
+
+        // Enlace de Referidos
+        copyRefBtn.addEventListener('click', () => {
+            const refLink = `https://t.me/CryptoSurvivorBot?start=ref_${telegramUserId}`;
+            navigator.clipboard.writeText(refLink).then(() => {
+                alert("¡Enlace de referido copiado al portapapeles! Compártelo con tus amigos.");
+            });
+        });
+
+        // Minijuego Defensivo Anti-DDoS aleatorio cada 3 minutos
+        let ddosActive = false;
+        let ddosClicksLeft = 15;
+        let ddosInterval = null;
+
+        function triggerDDoS() {
+            if (ddosActive) return;
+            ddosActive = true;
+            ddosClicksLeft = 15;
+            defendClicks.textContent = ddosClicksLeft;
+            ddosAlert.classList.remove('hidden');
+            playSound('win');
+
+            let timeLeft = 10;
+            ddosTimer.textContent = `Tiempo restante: ${timeLeft}s`;
+
+            ddosInterval = setInterval(() => {
+                timeLeft--;
+                ddosTimer.textContent = `Tiempo restante: ${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(ddosInterval);
+                    ddosActive = false;
+                    ddosAlert.classList.add('hidden');
+                    const penalty = Math.floor(state.score * 0.1);
+                    state.score = Math.max(0, state.score - penalty);
+                    alert(`❌ ¡El ataque DDoS tuvo éxito! Perdiste ${penalty.toLocaleString()} USDT.`);
+                    updateUI();
+                    }
+            }, 1000);
+        }
+
+        defendBtn.addEventListener('click', () => {
+            playSound('tap');
+            ddosClicksLeft--;
+            defendClicks.textContent = ddosClicksLeft;
+            if (ddosClicksLeft <= 0) {
+                clearInterval(ddosInterval);
+                ddosActive = false;
+                ddosAlert.classList.add('hidden');
+                playSound('win');
+                const reward = 5000;
+                state.score += reward;
+                alert(`🛡️ ¡Ataque repelido con éxito! Ganaste +${reward.toLocaleString()} USDT.`);
+                updateUI();
+            }
+        });
+
+        setInterval(triggerDDoS, 180000);
 
         function handleMine(e) {
             e.preventDefault();
@@ -498,7 +629,63 @@
             }
         }
 
-        // Sistema de Ruleta
+        // Tarjetas de Estrategia / Combos
+        buyCard1.addEventListener('click', () => {
+            if (!state.card1Bought && state.score >= 500) {
+                playSound('buy');
+                state.score -= 500;
+                state.card1Bought = true;
+                state.cps += 5;
+                buyCard1.disabled = true;
+                buyCard1.textContent = "Adquirido ✅";
+                updateUI();
+                saveGame();
+            }
+        });
+
+        buyCard2.addEventListener('click', () => {
+            if (!state.card2Bought && state.score >= 2000) {
+                playSound('buy');
+                state.score -= 2000;
+                state.card2Bought = true;
+                state.cps += 15;
+                buyCard2.disabled = true;
+                buyCard2.textContent = "Adquirido ✅";
+                updateUI();
+                saveGame();
+            }
+        });
+
+        buyCard3.addEventListener('click', () => {
+            if (!state.card3Bought && state.score >= 10000) {
+                playSound('buy');
+                state.score -= 10000;
+                state.card3Bought = true;
+                state.cps += 50;
+                buyCard3.disabled = true;
+                buyCard3.textContent = "Adquirido ✅";
+                updateUI();
+                saveGame();
+            }
+        });
+
+        // Racha Diaria 7 Días
+        streakBtn.addEventListener('click', () => {
+            const now = Date.now();
+            if (now - state.lastStreakTime > 24 * 60 * 60 * 1000) {
+                playSound('win');
+                const rewards = [500, 1200, 3000, 6000, 12000, 25000, 60000];
+                const currentReward = rewards[(state.streakDay - 1) % 7];
+                state.score += currentReward;
+                state.lastStreakTime = now;
+                state.streakDay = (state.streakDay % 7) + 1;
+                updateUI();
+                saveGame();
+                alert(`🔥 ¡Racha del Día reclamada! +${currentReward.toLocaleString()} USDT añadidos.`);
+            }
+        });
+
+        // Ruleta
         function executeSpin() {
             playSound('buy');
             spinFreeBtn.disabled = true;
@@ -538,14 +725,8 @@
             }
         });
 
-        spinStarsBtn.addEventListener('click', () => {
-            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openInvoice) {
-                // Factura real de Stars
-            }
-            executeSpin();
-        });
+        spinStarsBtn.addEventListener('click', executeSpin);
 
-        // Clanes
         joinClanBtn.addEventListener('click', () => {
             if (state.score > 100) {
                 playSound('win');
@@ -633,7 +814,7 @@
             if (state.score < 500) {
                 alert("Necesitas al menos 500 USDT para tradear.");
                 return;
-                 }
+            }
             playSound('buy');
             state.score -= 500;
             updateUI();
@@ -661,19 +842,6 @@
         tradeUp.addEventListener('click', () => startTrade("UP"));
         tradeDown.addEventListener('click', () => startTrade("DOWN"));
 
-        dailyBtn.addEventListener('click', () => {
-            const now = Date.now();
-            if (now - state.lastDaily > 24 * 60 * 60 * 1000) {
-                playSound('win');
-                state.score += 500;
-                state.lastDaily = now;
-                updateUI();
-                saveGame();
-                alert("¡Has reclamado 500 USDT de tu bono diario!");
-            }
-        });
-
-        // Alternar el Mercado cada 2 minutos
         setInterval(() => {
             state.isBullMarket = !state.isBullMarket;
             updateUI();
@@ -696,6 +864,7 @@
             cpsText.textContent = state.cps * state.multiplier * marketMult;
             multiplierText.textContent = state.multiplier;
             clanScoreEl.textContent = state.clanScore.toLocaleString();
+            streakDayEl.textContent = state.streakDay;
 
             if (state.isBullMarket) {
                 marketBadge.textContent = "🟢 Bull Market (x2)";
@@ -716,6 +885,10 @@
             buyQuantumBtn.disabled = state.score < state.quantumCost;
             halvingBtn.disabled = state.score < 10000;
 
+            buyCard1.disabled = state.card1Bought || state.score < 500;
+            buyCard2.disabled = state.card2Bought || state.score < 2000;
+            buyCard3.disabled = state.card3Bought || state.score < 10000;
+
             const now = Date.now();
             if (now - state.lastWheelFree < 24 * 60 * 60 * 1000) {
                 spinFreeBtn.disabled = true;
@@ -725,15 +898,14 @@
                 spinFreeBtn.textContent = "🎡 Giro Gratis Diario";
             }
 
-            const diff = now - state.lastDaily;
-            if (diff < 24 * 60 * 60 * 1000) {
-                dailyBtn.disabled = true;
-                dailyBtn.textContent = "Reclamado";
-                dailyTimer.textContent = "Vuelve mañana por más";
+            if (now - state.lastStreakTime < 24 * 60 * 60 * 1000) {
+                streakBtn.disabled = true;
+                streakBtn.textContent = "Reclamado";
+                streakTimer.textContent = "Vuelve mañana para el siguiente día";
             } else {
-                dailyBtn.disabled = false;
-                dailyBtn.textContent = "Reclamar";
-                dailyTimer.textContent = "¡Reclama 500 USDT gratis!";
+                streakBtn.disabled = false;
+                streakBtn.textContent = "Reclamar";
+                streakTimer.textContent = "¡Reclama tu recompensa de hoy!";
             }
 
             if (state.score < 500) {
