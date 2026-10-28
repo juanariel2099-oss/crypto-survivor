@@ -324,8 +324,8 @@
             <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">🎯 Logros Globales</h2>
             <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-bold text-slate-200">🐣 Primeros Pasos</p>
-                    <p class="text-[10px] text-slate-400">Haz 50 toques (+1,000 USDT)</p>
+                    <p class="text-xs font-bold text-slate-200">🐣 Primeros Pasos (50 toques)</p>
+                    <p class="text-[10px] text-slate-400">Progreso: <span id="ach-clicks-count">0</span>/50 | Recompensa: +1,000 USDT</p>
                 </div>
                 <button id="claim-ach-1" class="bg-slate-800 text-slate-400 text-xs font-bold px-3 py-1.5 rounded-lg" disabled>Reclamar</button>
             </div>
@@ -447,6 +447,7 @@
         const watchAdBtn = document.getElementById('watch-ad-btn');
         const visitPartnerBtn = document.getElementById('visit-partner-btn');
         const claimAch1 = document.getElementById('claim-ach-1');
+        const achClicksCount = document.getElementById('ach-clicks-count');
         const hackVaultBtn = document.getElementById('hack-vault-btn');
 
         const tabGame = document.getElementById('tab-game');
@@ -750,20 +751,7 @@
                 state.score += 2500;
                 updateUI();
                 saveGame();
-                alert("⭐ Giro extra procesado: +2,500 USDT");
-            });
-        }
-
-        if (joinClanBtn) {
-            joinClanBtn.addEventListener('click', () => {
-                if (state.score >= 100) {
-                    playSound('win');
-                    const c = Math.floor(state.score * 0.1);
-                    state.score -= c;
-                    state.clanScore += c;
-                    updateUI();
-                    saveGame();
-                    alert(`¡Aportaste ${c.toLocaleString()} al clan!`);
+                alert(`¡Aportaste ${c.toLocaleString()} al clan!`);
                 }
             });
         }
@@ -826,10 +814,22 @@
                 connectWalletBtn.textContent = state.walletAddress.substring(0, 8) + "...";
             }
 
-            if (!state.ach1Claimed && state.totalClicks >= 50 && claimAch1) {
-                claimAch1.disabled = false;
-                claimAch1.className = "bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-lg cursor-pointer";
-                claimAch1.textContent = "Reclamar";
+            // Actualización de estado del Logro 1
+            if (achClicksCount) achClicksCount.textContent = Math.min(state.totalClicks, 50);
+            if (claimAch1) {
+                if (state.ach1Claimed) {
+                    claimAch1.disabled = true;
+                    claimAch1.className = "bg-slate-800 text-slate-600 text-xs font-bold px-3 py-1.5 rounded-lg";
+                    claimAch1.textContent = "Reclamado";
+                } else if (state.totalClicks >= 50) {
+                    claimAch1.disabled = false;
+                    claimAch1.className = "bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-lg cursor-pointer";
+                    claimAch1.textContent = "Reclamar";
+                } else {
+                    claimAch1.disabled = true;
+                    claimAch1.className = "bg-slate-800 text-slate-400 text-xs font-bold px-3 py-1.5 rounded-lg";
+                    claimAch1.textContent = "Reclamar";
+                }
             }
 
             if (marketBadge) {
